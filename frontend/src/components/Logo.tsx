@@ -5,54 +5,95 @@ interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   linkToHome?: boolean;
+  variant?: 'light' | 'dark'; // 'light' is for light backgrounds, 'dark' is for dark backgrounds (e.g. footer)
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = '', size = 'sm', linkToHome = true }) => {
-  const iconSize = size === 'sm' ? 26 : size === 'lg' ? 38 : 32;
+export const Logo: React.FC<LogoProps> = ({
+  className = '',
+  size = 'md',
+  linkToHome = true,
+  variant = 'light'
+}) => {
+  const iconSize = size === 'sm' ? 30 : size === 'lg' ? 44 : 36;
   const textSize = size === 'sm' ? 'text-lg' : size === 'lg' ? 'text-2xl' : 'text-xl';
+  const subTextSize = size === 'sm' ? 'text-[8px]' : size === 'lg' ? 'text-[11px]' : 'text-[9px]';
+
+  const isDarkBg = variant === 'dark';
 
   const content = (
-    <div className={`flex items-center gap-2.5 font-display font-extrabold tracking-tight ${className}`}>
-      {/* Precision Flame & Equipment Dial Mark */}
-      <div className="relative flex items-center justify-center shrink-0">
+    <div className={`flex items-center gap-2.5 font-display tracking-tight select-none ${className}`}>
+      {/* Precision Engineered Hex-Flame Emblem */}
+      <div className="relative shrink-0 flex items-center justify-center">
         <svg
           width={iconSize}
           height={iconSize}
-          viewBox="0 0 44 44"
+          viewBox="0 0 48 48"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className="transition-transform duration-200 group-hover:scale-105"
         >
-          <rect width="44" height="44" rx="10" fill="#0F172A" />
-          {/* Flame Toque */}
-          <path
-            d="M12 24.5C10.5 22.8 10 19.5 11.5 16.5C13 13.5 16 13 18 14C19.5 11.5 22.5 10.5 25.5 11.5C28.5 12.5 30 15 30 17.5C32 18 33.5 20 33 22.5C32.5 25 30.5 26 28 26H16C14.5 26 13 25.5 12 24.5Z"
-            fill="url(#chefFlameGradLight)"
+          {/* Engineering Hex Shield */}
+          <polygon
+            points="24,3 43,14 43,34 24,45 5,34 5,14"
+            fill="#0F172A"
+            stroke="#1E293B"
+            strokeWidth="2"
           />
-          <rect x="13" y="28" width="18" height="2.5" rx="1.25" fill="#FFFFFF" />
-          <rect x="15" y="32.5" width="14" height="2" rx="1" fill="#EA580C" />
+          {/* Subtle Inner Accent Rim */}
+          <polygon
+            points="24,6 40,15.5 40,32.5 24,42 8,32.5 8,15.5"
+            fill="none"
+            stroke="#FF5722"
+            strokeWidth="1.2"
+            strokeOpacity="0.4"
+          />
+
+          {/* Precision Flame Core (Dual Thermal Arc) */}
+          <path
+            d="M24 10C24 10 29 16 29 22C29 25.5 26.8 28.5 24 29.5C21.2 28.5 19 25.5 19 22C19 16 24 10 24 10Z"
+            fill="url(#chefFlameLinear)"
+          />
+
+          {/* Dynamic Burner Jets / Induction Coils at base */}
+          <path
+            d="M15 31.5C17.5 34.5 20.5 36 24 36C27.5 36 30.5 34.5 33 31.5"
+            stroke="#FFFFFF"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M18 35.5C19.8 37.5 21.8 38.5 24 38.5C26.2 38.5 28.2 37.5 30 35.5"
+            stroke="#FF5722"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+
+          {/* Gradients */}
           <defs>
-            <linearGradient id="chefFlameGradLight" x1="10" y1="11" x2="33" y2="34" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FF5722" />
-              <stop offset="0.6" stopColor="#F59E0B" />
-              <stop offset="1" stopColor="#FBBF24" />
+            <linearGradient id="chefFlameLinear" x1="24" y1="10" x2="24" y2="30" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#FF6B35" />
+              <stop offset="0.5" stopColor="#FF5722" />
+              <stop offset="1" stopColor="#E63900" />
             </linearGradient>
           </defs>
         </svg>
       </div>
 
-      {/* Brand Typographic Wordmark */}
-      <div className="flex flex-col leading-none">
-        <div className={`flex items-center tracking-tight ${textSize}`}>
-          <span className="text-slate-900 font-extrabold tracking-tight">CHEF</span>
-          <span className="text-brand-orange font-black ml-0.5">
+      {/* Typographic Wordmark */}
+      <div className="flex flex-col justify-center leading-none">
+        <div className={`flex items-baseline font-black tracking-tight ${textSize}`}>
+          <span className={isDarkBg ? 'text-white' : 'text-slate-900'}>
+            CHEF
+          </span>
+          <span className="text-[#FF5722] ml-1">
             MACHINES
           </span>
         </div>
-        <div className="flex items-center gap-1.5 mt-0.5">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
-            Commercial Food Systems
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className={`font-semibold tracking-wider uppercase ${subTextSize} ${isDarkBg ? 'text-slate-400' : 'text-slate-500'}`}>
+            Commercial Kitchen Systems
           </span>
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" title="500+ Active Outlets" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Active Hotline 9782690188" />
         </div>
       </div>
     </div>

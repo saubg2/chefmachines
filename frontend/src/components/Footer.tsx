@@ -10,15 +10,13 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-slate-800">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-3">
-            <div className="bg-white inline-block p-2 rounded-xl">
-              <Logo size="md" />
-            </div>
+            <Logo size="md" variant="dark" />
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              ChefMachines (chefmachines.com) is India's leading commercial kitchen equipment supplier and turnkey solutions partner. Authorized distributor of Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, and Marco.
+              ChefMachines (chefmachines.com) is India's leading commercial food preparation equipment supplier and turnkey kitchen setup partner. Authorized distributor of Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, and Marco.
             </p>
             <div className="pt-2 text-xs text-slate-300 space-y-1">
-              <p>Sales Desk: <strong className="text-white">+91 98800-CHEFM</strong> / +91 (080) 4567-8900</p>
-              <p>Email: <strong className="text-white">sales@chefmachines.com</strong></p>
+              <p>Direct Hotline: <a href="tel:9782690188" className="text-white hover:text-[#FF5722] font-bold">9782690188</a></p>
+              <p>Email: <a href="mailto:saubg2@gmail.com" className="text-white hover:text-[#FF5722] font-semibold">saubg2@gmail.com</a></p>
               <p>Headquarters: Commercial Tech Park, Indiranagar, Bangalore 560038</p>
             </div>
           </div>

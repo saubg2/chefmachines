@@ -90,12 +90,21 @@ export const About: React.FC<AboutProps> = ({ onOpenQuoteModal }) => {
             >
               Request Consultation
             </button>
+            <a
+              href="tel:9782690188"
+              className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition"
+            >
+              Call Hotline: 9782690188
+            </a>
             <Link
               to="/wizard"
               className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl border border-slate-200 transition"
             >
               Configure Setup Online
             </Link>
+          </div>
+          <div className="mt-4 text-xs text-slate-500">
+            <span>Direct Email: <a href="mailto:saubg2@gmail.com" className="font-semibold text-slate-800 hover:text-brand-orange">saubg2@gmail.com</a></span>
           </div>
         </div>
       </div>

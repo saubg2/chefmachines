@@ -90,7 +90,7 @@ def seed_initial_data(db: Session):
             }),
             price_estimate=85000.0,
             is_rfq_only=True,
-            image_url="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80",
+            image_url="https://www.middlebycelfrost.com/allapi/assets/images/product/401/pro-401-1.png",
             is_featured=True
         ),
         Product(
@@ -116,7 +116,7 @@ def seed_initial_data(db: Session):
             }),
             price_estimate=108000.0,
             is_rfq_only=True,
-            image_url="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800&auto=format&fit=crop&q=80",
+            image_url="https://www.middlebycelfrost.com/allapi/assets/images/product/304/pro-304-1.png",
             is_featured=True
         ),
         Product(
@@ -142,7 +142,7 @@ def seed_initial_data(db: Session):
             }),
             price_estimate=485000.0,
             is_rfq_only=True,
-            image_url="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&auto=format&fit=crop&q=80",
+            image_url="https://www.middlebycelfrost.com/allapi/assets/images/product/40/pro-40-1.png",
             is_featured=True
         ),
 
@@ -427,7 +427,7 @@ def seed_initial_data(db: Session):
             }),
             price_estimate=890000.0,
             is_rfq_only=True,
-            image_url="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80",
+            image_url="https://www.middlebycelfrost.com/allapi/assets/images/product/28/pro-28-1.png",
             is_featured=True
         ),
         Product(

@@ -66,37 +66,79 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-900">
       {/* 1. HERO SECTION: CRISP, PROFESSIONAL LIGHT DESIGN */}
-      <section className="relative pt-12 pb-20 md:pt-16 md:pb-24 bg-white border-b border-slate-200">
+      <section className="relative pt-10 pb-16 md:pt-14 md:pb-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <span className="inline-block text-xs font-bold uppercase tracking-wider text-brand-orange bg-orange-50 px-3 py-1 rounded-full border border-orange-200 mb-4">
-              Commercial Food Preparation & Service Solutions
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-slate-900 leading-tight">
-              Supplying World-Class Equipment to 500+ Cafes, Chains & Hotels.
-            </h1>
-            <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-              Authorized supplier of Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, and Marco. Complete turnkey kitchen design, barista training, and 24/7 AMC uptime.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Content Column */}
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FF5722] bg-orange-50 px-3 py-1 rounded-full border border-orange-200 mb-4">
+                <span className="w-2 h-2 rounded-full bg-[#FF5722] animate-pulse" />
+                Commercial Food Preparation & Engineering
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display tracking-tight text-slate-900 leading-tight">
+                Supplying World-Class Commercial Equipment to 500+ Outlets.
+              </h1>
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
+                Authorized supplier of Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, and Marco. Complete turnkey kitchen design, barista training academy, and 24/7 AMC uptime.
+              </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
-              <Link
-                to="/wizard"
-                className="w-full sm:w-auto text-center px-7 py-3.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-sm shadow-sm transition"
-              >
-                Launch Kitchen Setup Wizard
-              </Link>
-              <Link
-                to="/products"
-                className="w-full sm:w-auto text-center px-7 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-sm transition"
-              >
-                Explore Equipment Catalog
-              </Link>
+              <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <Link
+                  to="/wizard"
+                  className="text-center px-6 py-3.5 rounded-xl bg-[#FF5722] hover:bg-[#e64a19] text-white font-bold text-sm shadow-sm transition"
+                >
+                  Launch Setup Wizard
+                </Link>
+                <Link
+                  to="/products"
+                  className="text-center px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-sm transition"
+                >
+                  Explore Equipment Catalog
+                </Link>
+                <button
+                  onClick={() => onOpenQuoteModal()}
+                  className="text-center px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-bold text-sm transition"
+                >
+                  Request Quote
+                </button>
+              </div>
+
+              <div className="mt-4 flex items-center gap-4 text-xs text-slate-500">
+                <span>Direct Hotline: <a href="tel:9782690188" className="font-bold text-slate-900 hover:text-[#FF5722]">9782690188</a></span>
+                <span>•</span>
+                <span>Email: <a href="mailto:saubg2@gmail.com" className="font-medium text-slate-700 hover:text-[#FF5722]">saubg2@gmail.com</a></span>
+              </div>
+            </div>
+
+            {/* Right Equipment Photography Showcase */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 group">
+                <img
+                  src="/images/commercial_kitchen_equipment_hero.jpg"
+                  alt="ChefMachines Commercial Kitchen Equipment Line"
+                  className="w-full h-80 sm:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback to high quality commercial kitchen image if local not yet loaded
+                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1000&auto=format&fit=crop&q=80";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-orange-300 mb-1">
+                    Authentic Commercial Line
+                  </span>
+                  <h3 className="text-base font-bold font-display leading-snug">
+                    SS-304 Heavy Duty Commercial Equipment
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Pitco Fryers • TurboChef Ovens • Celfrost Chillers • La Marzocco
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Key Metric Numbers */}
-          <div className="mt-14 pt-8 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="mt-12 pt-8 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
               <div className="text-3xl sm:text-4xl font-black text-slate-900 font-display">500+</div>
               <div className="text-xs text-slate-500 font-medium mt-0.5">Commercial Outlets Supplied</div>
@@ -106,7 +148,7 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
               <div className="text-xs text-slate-500 font-medium mt-0.5">Authorized Global Brands</div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl font-black text-brand-orange font-display">99.4%</div>
+              <div className="text-3xl sm:text-4xl font-black text-[#FF5722] font-display">99.4%</div>
               <div className="text-xs text-slate-500 font-medium mt-0.5">Operational Equipment Uptime</div>
             </div>
             <div>

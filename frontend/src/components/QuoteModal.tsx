@@ -43,7 +43,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
       setSubmitted(true);
     } catch (err) {
       console.error(err);
-      alert('There was an issue submitting your request. Please call our hotline directly at +91 98800-CHEFM.');
+      alert('There was an issue submitting your request. Please call our hotline directly at 9782690188 or email saubg2@gmail.com.');
     } finally {
       setIsSubmitting(false);
     }
@@ -66,8 +66,9 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
             <p className="text-slate-600 text-xs sm:text-sm max-w-sm mx-auto mb-5">
               Thank you, <strong className="text-slate-900">{formData.full_name}</strong>. A commercial consultant will call you with technical specs and quotation within 4 business hours.
             </p>
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-600 text-center max-w-xs mx-auto mb-5">
-              <span>Sales Desk: <strong>+91 98800-CHEFM</strong></span>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-600 text-center max-w-xs mx-auto mb-5 space-y-1">
+              <div>Direct Phone: <a href="tel:9782690188" className="font-bold text-slate-900 hover:text-[#FF5722]">9782690188</a></div>
+              <div>Email: <a href="mailto:saubg2@gmail.com" className="font-medium text-slate-700 hover:text-[#FF5722]">saubg2@gmail.com</a></div>
             </div>
             <button
               onClick={() => {

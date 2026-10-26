@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, Phone, Mail } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface NavbarProps {
@@ -14,10 +14,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuoteModal }) => {
   const navLinks = [
     { name: 'Equipment Catalog', path: '/products' },
     { name: 'Turnkey Setups', path: '/turnkey' },
-    { name: 'Setup Wizard', path: '/wizard', highlight: true },
+    { name: 'Setup Wizard', path: '/wizard' },
     { name: 'Calculators', path: '/calculators' },
     { name: 'Training Academy', path: '/training' },
-    { name: 'Knowledge Hub', path: '/blogs' },
     { name: 'About & Clients', path: '/about' }
   ];
 
@@ -27,92 +26,92 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuoteModal }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
-      {/* Top micro bar for B2B hotline & trust badge */}
-      <div className="hidden lg:block bg-slate-50 border-b border-slate-200/80 py-1.5 px-4 text-xs">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-slate-600">
+    <header className="sticky top-0 z-40 w-full bg-white border-b border-slate-200 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+      {/* Top micro bar for direct contact & trust metrics */}
+      <div className="bg-slate-900 text-slate-300 py-1.5 px-4 text-xs font-medium">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-semibold text-slate-800">
+            <span className="text-white font-semibold">
               Commercial Supplier to 500+ Cafes, QSR Chains & 5-Star Hotels
             </span>
-            <span className="text-slate-400">•</span>
-            <span className="text-slate-500">Authorized Distributor: Pitco, Celfrost, La Marzocco, Electrolux & more</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-slate-700">
-              Sales Desk: <strong className="text-slate-900">+91 98800-CHEFM</strong>
+            <span className="hidden md:inline text-slate-500">•</span>
+            <span className="hidden md:inline text-slate-400">
+              Authorized: Pitco, Celfrost, La Marzocco, Electrolux, TurboChef
             </span>
+          </div>
+          <div className="flex items-center gap-5">
+            <a
+              href="tel:9782690188"
+              className="inline-flex items-center gap-1.5 text-white hover:text-orange-400 transition"
+            >
+              <Phone className="w-3 h-3 text-orange-400" />
+              <span>9782690188</span>
+            </a>
+            <a
+              href="mailto:saubg2@gmail.com"
+              className="hidden sm:inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition"
+            >
+              <Mail className="w-3 h-3 text-orange-400" />
+              <span>saubg2@gmail.com</span>
+            </a>
             <Link
               to="/admin"
-              className="text-slate-600 hover:text-brand-orange font-medium transition text-[11px]"
+              className="text-slate-400 hover:text-white transition text-[11px]"
             >
-              CMS Admin
+              CMS
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Main navigation container */}
+      {/* Main clean navigation container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 py-3">
+        <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
           <Logo size="md" />
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden xl:flex items-center gap-1.5">
+          {/* Desktop Nav Items - Clean & Spacious */}
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((item) => {
               const active = isActive(item.path);
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                     active
-                      ? 'text-brand-orange bg-orange-50 font-bold'
-                      : item.highlight
-                      ? 'text-brand-orange hover:bg-orange-50 font-semibold'
-                      : 'text-slate-700 hover:text-brand-orange hover:bg-slate-50'
+                      ? 'text-[#FF5722] bg-orange-50 font-bold'
+                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
                   {item.name}
-                  {item.highlight && (
-                    <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-brand-orange">
-                      Wizard
-                    </span>
-                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* CTA Buttons */}
+          {/* Right Action Area */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              to="/wizard"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-brand-orange hover:bg-brand-orange-hover transition shadow-sm"
-            >
-              <span>Setup Wizard</span>
-            </Link>
-
             <button
               onClick={() => onOpenQuoteModal()}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 transition"
+              className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#FF5722] hover:bg-[#e64a19] transition shadow-sm"
             >
-              <span>Request Quote</span>
+              Request Quote
             </button>
           </div>
 
-          {/* Mobile hamburger toggle */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile menu toggle */}
+          <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => onOpenQuoteModal()}
-              className="px-3 py-1.5 text-brand-orange bg-orange-50 border border-orange-200 rounded-lg text-xs font-bold"
+              className="px-3 py-1.5 rounded-md text-xs font-bold text-white bg-[#FF5722]"
             >
-              RFQ
+              Quote
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:text-slate-900"
+              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -122,37 +121,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuoteModal }) => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-1.5">
-          {navLinks.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2 rounded-lg text-sm font-medium ${
-                isActive(item.path)
-                  ? 'bg-orange-50 text-brand-orange font-bold'
-                  : 'text-slate-700 hover:bg-slate-50'
-              }`}
+        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg animate-in slide-in-from-top-2">
+          {navLinks.map((item) => {
+            const active = isActive(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2 rounded-lg text-sm font-medium transition ${
+                  active
+                    ? 'text-[#FF5722] bg-orange-50 font-bold'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+          <div className="pt-3 border-t border-slate-200 mt-2 space-y-2">
+            <a
+              href="tel:9782690188"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-800 bg-slate-50 rounded-lg"
             >
-              {item.name}
-            </Link>
-          ))}
-
-          <div className="pt-3 border-t border-slate-200 flex flex-col gap-2">
-            <Link
-              to="/wizard"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg bg-brand-orange text-white font-bold text-xs"
+              <Phone className="w-4 h-4 text-[#FF5722]" />
+              Call Hotline: 9782690188
+            </a>
+            <a
+              href="mailto:saubg2@gmail.com"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 bg-slate-50 rounded-lg"
             >
-              Start Kitchen Setup Wizard
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2 rounded-lg bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200"
-            >
-              Open CMS Admin
-            </Link>
+              <Mail className="w-4 h-4 text-[#FF5722]" />
+              saubg2@gmail.com
+            </a>
           </div>
         </div>
       )}
