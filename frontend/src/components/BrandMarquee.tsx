@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { BrandLogo } from './BrandLogos';
 
 export const BRANDS = [
   { name: 'Celfrost', role: 'Commercial Refrigeration & Ice', tag: 'Cold Chain', highlight: 'Upright Chillers, Backbars, Freezers' },
@@ -26,40 +27,45 @@ export const BrandMarquee: React.FC<BrandMarqueeProps> = ({ onSelectBrand }) => 
   return (
     <section className="py-14 bg-white border-y border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
-            Authorized Commercial Brand Partnerships
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
-            Leading Equipment Brands We Supply
-          </h2>
-          <p className="text-slate-600 text-xs sm:text-sm mt-1.5">
-            Factory warranty, genuine spare parts, and certified technician service across India.
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-slate-200">
+          <div>
+            <span className="text-xs font-bold text-[#FF5722] uppercase tracking-wider block mb-1">
+              Authorized Manufacturer Partnerships
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display uppercase tracking-tight">
+              Leading Commercial Brands We Supply
+            </h2>
+          </div>
+          <p className="text-slate-500 text-xs sm:text-sm mt-2 md:mt-0 max-w-md">
+            Direct factory distribution, authentic OEM spare parts, and certified technician service across India.
           </p>
         </div>
 
-        {/* Clean Light Brand Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+        {/* Clean Architectural Grid of Brand Badges */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
           {BRANDS.map((b) => (
             <Link
               key={b.name}
               to={`/products?brand=${encodeURIComponent(b.name)}`}
               onClick={() => onSelectBrand?.(b.name)}
-              className="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-brand-orange rounded-xl p-3.5 transition-all shadow-sm hover:shadow flex flex-col justify-between"
+              className="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#FF5722] rounded-md p-4 transition-all flex flex-col justify-between shadow-none hover:shadow-md"
             >
               <div>
-                <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 border border-slate-200 inline-block mb-1.5">
-                  {b.tag}
-                </span>
-                <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-orange transition font-display">
-                  {b.name}
-                </h3>
-                <p className="text-slate-500 text-[10px] line-clamp-1 mt-0.5">{b.role}</p>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                    {b.tag}
+                  </span>
+                </div>
+                {/* Brand Logo & Logomark */}
+                <div className="py-2.5 flex items-center min-h-[38px]">
+                  <BrandLogo brand={b.name} className="h-6" />
+                </div>
+                <p className="text-slate-500 text-[11px] mt-1 line-clamp-1">{b.role}</p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-slate-200/80 flex items-center justify-between text-[10px] text-slate-500 group-hover:text-brand-orange font-semibold">
-                <span>View Models</span>
-                <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+              <div className="mt-3 pt-2.5 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-600 group-hover:text-[#FF5722] font-bold">
+                <span>View Equipment</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </div>
             </Link>
           ))}

@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
           {/* Tools & Resources */}
           <div>
             <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-3">
-              Calculators & Portal
+              Calculators & Guides
             </h4>
             <ul className="space-y-2 text-xs">
               <li><Link to="/calculators" className="hover:text-white transition">Cold Room Sizer</Link></li>
@@ -62,11 +62,6 @@ export const Footer: React.FC = () => {
               <li><Link to="/calculators" className="hover:text-white transition">Exhaust Hood CFM Sizer</Link></li>
               <li><Link to="/calculators" className="hover:text-white transition">Fryer Oil ROI Calculator</Link></li>
               <li><Link to="/blogs" className="hover:text-white transition">Commercial Kitchen Guides</Link></li>
-              <li className="pt-2">
-                <Link to="/admin" className="text-slate-400 hover:text-white font-semibold">
-                  ⚙️ CMS Portal
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

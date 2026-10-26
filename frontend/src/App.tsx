@@ -48,7 +48,7 @@ export function App() {
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/:slug" element={<BlogPostDetail />} />
             <Route path="/about" element={<About onOpenQuoteModal={handleOpenQuoteModal} />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/manage-chefmachines-9782" element={<AdminDashboard />} />
           </Routes>
         </main>
 

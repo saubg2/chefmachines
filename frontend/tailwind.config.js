@@ -24,7 +24,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+        display: ['"Barlow Condensed"', 'Barlow', 'sans-serif'],
+        industrial: ['Barlow', 'Inter', 'sans-serif']
       },
       boxShadow: {
         'glow-orange': '0 0 25px -5px rgba(255, 87, 34, 0.4)',
