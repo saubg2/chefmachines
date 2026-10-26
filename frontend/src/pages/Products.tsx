@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import {
-  UtensilsCrossed,
-  Search,
-  Filter,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  PhoneCall,
-  SlidersHorizontal,
-  CheckCircle2
-} from 'lucide-react';
-import { api, Product, Category, Brand } from '../services/api';
+import { Search, ArrowRight } from 'lucide-react';
+import { api, Product, Category } from '../services/api';
 import { BRANDS } from '../components/BrandMarquee';
 
 interface ProductsProps {
@@ -60,7 +50,7 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
 
   const handleBrandSelect = (brandName: string) => {
     const params = new URLSearchParams(searchParams);
-    if (brandName === activeBrand) {
+    if (brandName.toLowerCase() === activeBrand.toLowerCase()) {
       params.delete('brand');
     } else {
       params.set('brand', brandName);
@@ -69,52 +59,50 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Page Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-orange/15 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-wider mb-3">
-            <UtensilsCrossed className="w-4 h-4" /> Commercial Foodservice Catalog
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black font-display text-white">
+        {/* Header */}
+        <div className="max-w-2xl mb-8">
+          <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
+            Commercial Equipment Catalog
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-display">
             Commercial Kitchen Equipment
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base mt-2">
-            Heavy-duty freezers, fryers, combi ovens, contact bun warmers, espresso machines, and Middleby Celfrost systems.
+          <p className="text-slate-600 text-xs sm:text-sm mt-1">
+            Supplying Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, Fiorenzato, Marco, and Sinmag.
           </p>
         </div>
 
-        {/* Search & Filter Bar */}
-        <div className="bg-[#151F2E] border border-slate-700/80 rounded-2xl p-4 mb-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Search Box */}
+        {/* Search Bar */}
+        <div className="bg-white border border-slate-200 rounded-xl p-3.5 mb-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="relative w-full md:w-96">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search by equipment, model, or category..."
+              placeholder="Search by model, brand, or equipment..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
+              className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white"
             />
           </div>
-
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <span>Showing <strong className="text-white">{products.length}</strong> commercial models</span>
-          </div>
+          <span className="text-xs text-slate-500 font-medium">
+            Showing <strong className="text-slate-900">{products.length}</strong> commercial models
+          </span>
         </div>
 
-        {/* Authorized Brands Filter Row */}
-        <div className="mb-6">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 block mb-2">
-            Filter by Authorized Commercial Brand:
+        {/* Brand Filter Row */}
+        <div className="mb-4">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
+            Filter by Brand:
           </span>
-          <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1">
+          <div className="flex flex-wrap items-center gap-1.5 pb-1">
             <button
               onClick={() => handleBrandSelect('')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border ${
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition border ${
                 activeBrand === ''
-                  ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold shadow-md'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                  ? 'bg-brand-orange border-brand-orange text-white font-bold'
+                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100'
               }`}
             >
               All Brands
@@ -123,10 +111,10 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
               <button
                 key={b.name}
                 onClick={() => handleBrandSelect(b.name)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
+                className={`px-3 py-1 rounded-lg text-xs font-semibold transition border ${
                   activeBrand.toLowerCase() === b.name.toLowerCase()
-                    ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md'
-                    : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-white hover:border-slate-600'
+                    ? 'bg-brand-orange border-brand-orange text-white font-bold'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 {b.name}
@@ -136,51 +124,47 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
         </div>
 
         {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2 mb-10 overflow-x-auto pb-2">
+        <div className="flex flex-wrap items-center gap-1.5 mb-8 pb-1">
           <button
             onClick={() => handleCategorySelect('')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition border ${
+            className={`px-3 py-1 rounded-lg text-xs font-semibold transition border ${
               activeCategory === ''
-                ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/25'
-                : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white'
+                ? 'bg-slate-900 border-slate-900 text-white font-bold'
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
             }`}
           >
-            All Categories ({products.length})
+            All Categories
           </button>
           {categories.map((c) => (
             <button
               key={c.id}
               onClick={() => handleCategorySelect(c.slug)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition border ${
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition border ${
                 activeCategory === c.slug
-                  ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/25'
-                  : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-slate-900 border-slate-900 text-white font-bold'
+                  : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
               }`}
             >
-              {c.name} {c.product_count ? `(${c.product_count})` : ''}
+              {c.name}
             </button>
           ))}
         </div>
 
         {/* Products Grid */}
         {loading ? (
-          <div className="py-20 text-center">
-            <div className="w-10 h-10 border-4 border-brand-orange border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-slate-400 text-xs">Loading commercial catalog...</p>
+          <div className="py-20 text-center text-slate-500 text-xs">
+            Loading commercial equipment...
           </div>
         ) : products.length === 0 ? (
-          <div className="bg-[#151F2E] border border-slate-800 rounded-3xl p-12 text-center max-w-md mx-auto">
-            <UtensilsCrossed className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-white mb-1">No Equipment Found</h3>
-            <p className="text-slate-400 text-xs mb-4">
-              Try adjusting your search terms or view our full catalog.
-            </p>
+          <div className="bg-white border border-slate-200 rounded-xl p-10 text-center max-w-md mx-auto">
+            <h3 className="text-base font-bold text-slate-900 mb-1">No Equipment Found</h3>
+            <p className="text-slate-500 text-xs mb-3">Try clearing your brand or category filters.</p>
             <button
               onClick={() => {
                 setSearchQuery('');
                 setSearchParams({});
               }}
-              className="px-4 py-2 bg-brand-orange text-white text-xs font-bold rounded-xl"
+              className="px-4 py-1.5 bg-brand-orange text-white text-xs font-bold rounded-lg"
             >
               Reset Filters
             </button>
@@ -190,44 +174,41 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
             {products.map((p) => (
               <div
                 key={p.id}
-                className="group bg-[#151D2A] border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl hover:border-brand-orange transition-all flex flex-col justify-between"
+                className="bg-white border border-slate-200 hover:border-slate-400 rounded-xl overflow-hidden shadow-sm transition flex flex-col justify-between"
               >
                 <div>
-                  {/* Image */}
-                  <div className="relative h-60 bg-slate-900/95 overflow-hidden flex items-center justify-center p-4">
+                  <div className="relative h-56 bg-slate-100 overflow-hidden flex items-center justify-center p-4">
                     <img
                       src={p.image_url || 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=800&auto=format&fit=crop&q=80'}
                       alt={p.name}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300"
+                      className="max-h-full max-w-full object-contain"
                     />
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-slate-900/90 text-amber-400 border border-amber-500/30 backdrop-blur-sm">
-                      {p.brand || 'ChefMachines Pro'}
+                    <div className="absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white text-slate-900 border border-slate-200 shadow-sm">
+                      {p.brand}
                     </div>
                     {p.model && (
-                      <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-[10px] font-mono bg-black/75 text-slate-300 border border-slate-700">
+                      <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-[10px] font-mono bg-white text-slate-600 border border-slate-200">
                         {p.model}
                       </div>
                     )}
                   </div>
 
-                  {/* Info */}
-                  <div className="p-6">
+                  <div className="p-5">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
                       {p.category_slug.replace('-', ' ')}
                     </span>
-                    <h3 className="text-lg font-bold font-display text-white line-clamp-2 group-hover:text-amber-400 transition">
+                    <h3 className="text-base font-bold text-slate-900 line-clamp-2 hover:text-brand-orange transition">
                       <Link to={`/products/${p.slug}`}>{p.name}</Link>
                     </h3>
-                    <p className="text-slate-400 text-xs mt-2 line-clamp-2 leading-relaxed">
+                    <p className="text-slate-500 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                       {p.description}
                     </p>
 
-                    {/* Features preview */}
                     {p.features && p.features.length > 0 && (
-                      <ul className="mt-4 space-y-1">
+                      <ul className="mt-3 space-y-1 text-[11px] text-slate-600">
                         {p.features.slice(0, 2).map((feat, fIdx) => (
-                          <li key={fIdx} className="flex items-center gap-1.5 text-[11px] text-slate-300">
-                            <span className="w-1 h-1 rounded-full bg-brand-orange shrink-0" />
+                          <li key={fIdx} className="flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
                             <span className="truncate">{feat}</span>
                           </li>
                         ))}
@@ -236,22 +217,21 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
                   </div>
                 </div>
 
-                {/* Footer / Actions */}
-                <div className="p-6 pt-0 border-t border-slate-800/80 mt-4 flex items-center justify-between">
+                <div className="p-5 pt-0 border-t border-slate-100 mt-3 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Commercial Pricing</span>
-                    <span className="text-xs font-bold text-white">Direct Factory RFQ</span>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Commercial</span>
+                    <span className="text-xs font-bold text-slate-900">Direct Factory RFQ</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Link
                       to={`/products/${p.slug}`}
-                      className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 rounded-xl transition"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 rounded-lg transition"
                     >
                       Specs
                     </Link>
                     <button
                       onClick={() => onOpenQuoteModal(p.name)}
-                      className="px-3.5 py-2 bg-brand-orange hover:bg-brand-orange-hover text-xs font-bold text-white rounded-xl shadow-md shadow-brand-orange/30 transition"
+                      className="px-3.5 py-1.5 bg-brand-orange hover:bg-brand-orange-hover text-xs font-bold text-white rounded-lg transition"
                     >
                       Request Quote
                     </button>

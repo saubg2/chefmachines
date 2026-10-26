@@ -1,26 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Wand2,
-  Calculator,
-  UtensilsCrossed,
-  GraduationCap,
-  Sparkles,
-  ShieldCheck,
-  Flame,
-  ArrowRight,
-  CheckCircle2,
-  Zap,
-  Snowflake,
-  Coffee,
-  Building2,
-  ChefHat,
-  Gauge,
-  Layers,
-  PhoneCall,
-  Clock,
-  BookOpen
-} from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { api, Product, TrainingModule, BlogPost } from '../services/api';
 import { BrandMarquee } from '../components/BrandMarquee';
 import { ClientCredibility } from '../components/ClientCredibility';
@@ -37,8 +17,8 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
 
   // Quick Home Calculator State
   const [calcCups, setCalcCups] = useState(300);
-  const [calcRoomLen, setCalcRoomLen] = useState(10);
-  const [calcRoomWid, setCalcRoomWid] = useState(8);
+  const [calcRoomLen, setCalcRoomLen] = useState(12);
+  const [calcRoomWid, setCalcRoomWid] = useState(10);
 
   useEffect(() => {
     api.getProducts({ featured: true }).then((data) => setFeaturedProducts(data.slice(0, 6))).catch(console.error);
@@ -50,23 +30,23 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
     burger_joint: {
       title: "Gourmet Burger Joint & QSR",
       time: "12s Bun Caramelization",
-      equipment: ["TurboBake Contact Bun Warmer", "Twin-Well 28L Filtered Fryer", "ChromeMax 900mm Clamshell Griddle", "Chilled Burger Prep Counter"],
-      budget: "₹4.9L - ₹18L",
-      kw: "24 - 38 kW",
+      equipment: ["Toastmaster Vertical Contact Bun Toaster", "Pitco 35C+ Gas Deep Fryers (18L)", "Heavy Duty Chrome Griddle", "Hoshizaki / Celfrost Prep Counter"],
+      budget: "₹3.9L - ₹19L",
+      kw: "12 - 18 kW (Gas & Electric)",
       orders: "100 - 500 burgers/day"
     },
     artisanal_cafe: {
       title: "Specialty Cafe & Roastery",
       time: "240 Shots / Peak Hour",
-      equipment: ["Dual-Boiler 2-Group Espresso Machine", "Precision On-Demand Grinders", "FrostFlow 120kg Gourmet Ice Maker", "Underbar Milk Pitcher Rinser"],
-      budget: "₹6.2L - ₹19.5L",
-      kw: "8.5 - 16 kW",
+      equipment: ["La Marzocco Linea Classic S or La Cimbali M26", "Fiorenzato F64 Evo Precision Grinders", "Marco MIX UC4 Under-counter Boiler", "Electrolux Undercounter Glasswasher"],
+      budget: "₹5.6L - ₹24L",
+      kw: "6.0 - 12 kW",
       orders: "150 - 800 cups/day"
     },
     artisan_pizzeria: {
-      title: "Authentic Neapolitan Pizzeria",
+      title: "Authentic Neapolitan & NY Pizzeria",
       time: "4.5 Min Continuous Bake",
-      equipment: ["SpeedFire 32-Inch Conveyor Oven", "SpiralMax 40kg Dough Mixer", "Granite-top Pizza Prep Station", "10-Tray Blast Chiller"],
+      equipment: ["Middleby Marshall PS540 Conveyor Oven", "Sinmag SM2-25 Spiral Dough Mixer", "Celfrost Granite Pizza Prep Station", "Celfrost Blast Chiller"],
       budget: "₹5.4L - ₹22L",
       kw: "15 - 34 kW",
       orders: "100 - 600 pizzas/day"
@@ -74,7 +54,7 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
     cloud_kitchen: {
       title: "High-Volume Cloud Kitchen",
       time: "Multi-Brand 24/7 Delivery",
-      equipment: ["MasterTouch 10-Tray Combi Steam Oven", "Twin Filtered Heavy Fryers", "Walk-in Modular Cold Room", "Pass-Through Hood Dishwasher"],
+      equipment: ["TurboChef Sota Rapid Ovens", "Pitco Multi-Vat Fryer System", "Celfrost Walk-in Modular Cold Room", "Electrolux Pass-Through Dishwasher"],
       budget: "₹8.4L - ₹32L",
       kw: "37 - 70 kW",
       orders: "300 - 1,500 orders/day"
@@ -84,159 +64,143 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
   const selectedPreview = wizardPreviews[activeConcept as keyof typeof wizardPreviews] || wizardPreviews.burger_joint;
 
   return (
-    <div className="relative min-h-screen text-slate-100 overflow-hidden">
-      {/* 1. HERO SECTION: FLOWING & VIBRANT */}
-      <section className="relative pt-12 pb-24 md:pt-20 md:pb-32 bg-radial-glow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Top trust badge */}
-          <div className="flex items-center justify-center">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-lg text-xs font-semibold text-slate-300">
-              <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-orange"></span>
-              </span>
-              <span>Powering Over <strong className="text-amber-400">500+ Cafes & Commercial Kitchens</strong> Across India</span>
-            </div>
-          </div>
-
-          {/* Main Hero Header */}
-          <div className="text-center mt-6 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-white leading-tight">
-              Engineered For Speed, Taste & <span className="gradient-text-flame">Zero Downtime</span>
+    <div className="relative min-h-screen bg-slate-50 text-slate-900">
+      {/* 1. HERO SECTION: CRISP, PROFESSIONAL LIGHT DESIGN */}
+      <section className="relative pt-12 pb-20 md:pt-16 md:pb-24 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <span className="inline-block text-xs font-bold uppercase tracking-wider text-brand-orange bg-orange-50 px-3 py-1 rounded-full border border-orange-200 mb-4">
+              Commercial Food Preparation & Service Solutions
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-slate-900 leading-tight">
+              Supplying World-Class Equipment to 500+ Cafes, Chains & Hotels.
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              From commercial freezers, fryers, and espresso machines to turnkey MEP fit-outs and barista academy certifications. One brand for commercial food excellence.
+            <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
+              Authorized supplier of Pitco, Celfrost, La Marzocco, Electrolux, TurboChef, Middleby Marshall, and Marco. Complete turnkey kitchen design, barista training, and 24/7 AMC uptime.
             </p>
 
-            {/* CTAs */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
               <Link
                 to="/wizard"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-orange via-amber-500 to-amber-600 hover:from-brand-orange-hover hover:to-amber-700 text-white font-extrabold text-base shadow-2xl shadow-brand-orange/30 transition transform hover:-translate-y-0.5"
+                className="w-full sm:w-auto text-center px-7 py-3.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-sm shadow-sm transition"
               >
-                <Wand2 className="w-5 h-5" />
-                <span>Launch Interactive Setup Wizard</span>
+                Launch Kitchen Setup Wizard
               </Link>
               <Link
                 to="/products"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-base transition"
+                className="w-full sm:w-auto text-center px-7 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-sm transition"
               >
-                <UtensilsCrossed className="w-5 h-5 text-brand-orange" />
-                <span>Browse Equipment Catalog</span>
+                Explore Equipment Catalog
               </Link>
             </div>
           </div>
 
-          {/* Dynamic Floating Credibility Metric Pills */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            <div className="bg-[#121A26]/80 backdrop-blur-md border border-slate-800 rounded-2xl p-5 text-center transform hover:border-brand-orange/40 transition">
-              <div className="text-3xl sm:text-4xl font-black text-amber-400 font-display">500+</div>
-              <div className="text-xs text-slate-400 font-medium mt-1">Cafes & Kitchens Built</div>
+          {/* Key Metric Numbers */}
+          <div className="mt-14 pt-8 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-slate-900 font-display">500+</div>
+              <div className="text-xs text-slate-500 font-medium mt-0.5">Commercial Outlets Supplied</div>
             </div>
-            <div className="bg-[#121A26]/80 backdrop-blur-md border border-slate-800 rounded-2xl p-5 text-center transform hover:border-brand-orange/40 transition">
-              <div className="text-3xl sm:text-4xl font-black text-white font-display">15,000+</div>
-              <div className="text-xs text-slate-400 font-medium mt-1">Machines in Daily Service</div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-slate-900 font-display">13+</div>
+              <div className="text-xs text-slate-500 font-medium mt-0.5">Authorized Global Brands</div>
             </div>
-            <div className="bg-[#121A26]/80 backdrop-blur-md border border-slate-800 rounded-2xl p-5 text-center transform hover:border-brand-orange/40 transition">
+            <div>
               <div className="text-3xl sm:text-4xl font-black text-brand-orange font-display">99.4%</div>
-              <div className="text-xs text-slate-400 font-medium mt-1">Operational Equipment Uptime</div>
+              <div className="text-xs text-slate-500 font-medium mt-0.5">Operational Equipment Uptime</div>
             </div>
-            <div className="bg-[#121A26]/80 backdrop-blur-md border border-slate-800 rounded-2xl p-5 text-center transform hover:border-brand-orange/40 transition">
-              <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-display">&lt; 4 Hours</div>
-              <div className="text-xs text-slate-400 font-medium mt-1">Metropolitan Service SLA</div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-emerald-600 font-display">&lt; 4 Hours</div>
+              <div className="text-xs text-slate-500 font-medium mt-0.5">Metropolitan AMC Response</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* AUTHORIZED COMMERCIAL BRANDS WE DISTRIBUTE */}
+      {/* AUTHORIZED COMMERCIAL BRANDS (CELFROST, PITCO, LA MARZOCCO, ELECTROLUX, ETC.) */}
       <BrandMarquee />
 
-      {/* REAL CLIENT CREDIBILITY: 500+ COMMERCIAL OUTLETS (BURGER FARM, NBC, CLARKS AMER, ETC.) */}
+      {/* REAL CLIENT LIST (BURGER FARM, NBC, CLARKS AMER, BROWN SUGAR, CAFE NOLA, ETC.) */}
       <ClientCredibility />
 
-      {/* 2. THE 4 INTERNAL PILLARS (FLOWING CARDS) */}
-      <section className="py-20 bg-[#0E131C] border-y border-slate-800/80 relative">
+      {/* 2. THE 4 CORE FUNCTIONS */}
+      <section className="py-16 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-wider mb-3">
-              Comprehensive Foodservice Platform
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+              End-to-End Service Model
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
               The 4 Pillars of ChefMachines
             </h2>
-            <p className="text-slate-400 text-base mt-3">
-              We eliminate the friction of dealing with multiple unaligned vendors. We handle your hardware, layout, manpower, and uptime.
+            <p className="text-slate-600 text-xs sm:text-sm mt-1.5">
+              One unified team handling your equipment procurement, MEP layout engineering, manpower training, and 24/7 care.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Pillar A: Equipment Sales */}
-            <div className="relative group bg-gradient-to-b from-[#182332] to-[#111823] border border-slate-700/80 rounded-3xl p-7 hover:border-brand-orange transition-all shadow-xl hover:-translate-y-1">
-              <div className="w-14 h-14 rounded-2xl bg-brand-orange/15 border border-brand-orange/30 flex items-center justify-center text-brand-orange mb-6 group-hover:bg-brand-orange group-hover:text-white transition">
-                <UtensilsCrossed className="w-7 h-7" />
+            {/* Function 1 */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-slate-400 transition shadow-sm flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-orange block mb-1">Pillar 1</span>
+                <h3 className="text-lg font-bold text-slate-900 font-display mb-2">
+                  Equipment Distribution
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed mb-4">
+                  Direct supply of Pitco fryers, Toastmaster bun warmers, Celfrost refrigeration, TurboChef ovens, and La Marzocco espresso machines with factory warranty.
+                </p>
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400">Pillar 1</span>
-              <h3 className="text-xl font-bold font-display text-white mt-1 mb-3">
-                Commercial Equipment Sales
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Direct access to commercial freezers, combi steamers, contact bun warmers, automatic oil-filtration fryers, espresso machines, and Middleby Celfrost systems.
-              </p>
-              <Link to="/products" className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange hover:text-amber-400">
-                Explore Equipment <ArrowRight className="w-3.5 h-3.5" />
+              <Link to="/products" className="text-xs font-bold text-brand-orange hover:underline inline-flex items-center gap-1">
+                Browse Equipment <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            {/* Pillar B: Turnkey Solutions */}
-            <div className="relative group bg-gradient-to-b from-[#182332] to-[#111823] border border-slate-700/80 rounded-3xl p-7 hover:border-amber-400 transition-all shadow-xl hover:-translate-y-1">
-              <div className="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6 group-hover:bg-amber-500 group-hover:text-slate-900 transition">
-                <Sparkles className="w-7 h-7" />
+            {/* Function 2 */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-slate-400 transition shadow-sm flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 block mb-1">Pillar 2</span>
+                <h3 className="text-lg font-bold text-slate-900 font-display mb-2">
+                  Turnkey Kitchen Solutions
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed mb-4">
+                  End-to-end design for burger joints, cafes, bars, and cloud kitchens: 3D CAD workflow layouts, 3-phase electrical & plumbing schematics, and SS-304 custom fabrication.
+                </p>
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400">Pillar 2</span>
-              <h3 className="text-xl font-bold font-display text-white mt-1 mb-3">
-                Turnkey Kitchen Solutions
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                End-to-end design for burger joints, cafes, bars, and cloud kitchens: 3D CAD workflows, MEP electrical & plumbing drawings, stainless fabrication, and gas piping.
-              </p>
-              <Link to="/turnkey" className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-white">
-                Turnkey Capabilities <ArrowRight className="w-3.5 h-3.5" />
+              <Link to="/turnkey" className="text-xs font-bold text-amber-600 hover:underline inline-flex items-center gap-1">
+                Turnkey Workflow <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            {/* Pillar C: Barista & Manpower Training */}
-            <div className="relative group bg-gradient-to-b from-[#182332] to-[#111823] border border-slate-700/80 rounded-3xl p-7 hover:border-emerald-400 transition-all shadow-xl hover:-translate-y-1">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6 group-hover:bg-emerald-500 group-hover:text-slate-900 transition">
-                <GraduationCap className="w-7 h-7" />
+            {/* Function 3 */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-slate-400 transition shadow-sm flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Pillar 3</span>
+                <h3 className="text-lg font-bold text-slate-900 font-display mb-2">
+                  Barista & Manpower Academy
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed mb-4">
+                  Certified training on your exact equipment: espresso extraction calibration, combi oven multi-rack cooking, and fryer oil management so staff operate machines cleanly and safely.
+                </p>
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Pillar 3</span>
-              <h3 className="text-xl font-bold font-display text-white mt-1 mb-3">
-                Barista & Manpower Training
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Machines are only as great as the manpower operating them. We train your staff to become expert baristas, combi chefs, and QSR line technicians with certifications.
-              </p>
-              <Link to="/training" className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-white">
+              <Link to="/training" className="text-xs font-bold text-emerald-600 hover:underline inline-flex items-center gap-1">
                 View Academy Modules <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            {/* Pillar D: Smart Kitchen Care & AMC */}
-            <div className="relative group bg-gradient-to-b from-[#182332] to-[#111823] border border-slate-700/80 rounded-3xl p-7 hover:border-brand-teal transition-all shadow-xl hover:-translate-y-1">
-              <div className="w-14 h-14 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-slate-900 transition">
-                <ShieldCheck className="w-7 h-7" />
+            {/* Function 4 */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-slate-400 transition shadow-sm flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-700 block mb-1">Pillar 4</span>
+                <h3 className="text-lg font-bold text-slate-900 font-display mb-2">
+                  Smart Care & 24/7 AMC
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed mb-4">
+                  Guaranteed under 4-hour metro service SLA, preventive descaling, condenser cleaning cycles, and stocked spare parts across 12 regional hubs.
+                </p>
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pillar 4</span>
-              <h3 className="text-xl font-bold font-display text-white mt-1 mb-3">
-                Smart Care & 24/7 AMC
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Preventative AMC contracts, genuine spare parts stocked in 12 cities, emergency technician dispatch, and scheduled descaling/condenser maintenance cycles.
-              </p>
               <button
-                onClick={() => onOpenQuoteModal("24/7 Preventive AMC Plan")}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-white"
+                onClick={() => onOpenQuoteModal("24/7 Preventive AMC Program")}
+                className="text-xs font-bold text-cyan-700 hover:underline inline-flex items-center gap-1 text-left"
               >
                 Inquire AMC Plans <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -245,106 +209,98 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
         </div>
       </section>
 
-      {/* 3. INTERACTIVE SETUP WIZARD TEASER (FLOWING INTERACTIVE PREVIEW) */}
-      <section className="py-24 bg-gradient-to-b from-[#0B0F17] via-[#111826] to-[#0B0F17]">
+      {/* 3. INTERACTIVE SETUP WIZARD TEASER */}
+      <section className="py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#151F2E] border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-            {/* Background glowing flair */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl pointer-events-none" />
-
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Left Column: Concept Selector */}
+              {/* Concept Selector */}
               <div className="lg:col-span-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/15 border border-brand-orange/30 text-brand-orange text-xs font-bold mb-3">
-                  <Wand2 className="w-4 h-4" /> Live Kitchen Configurator
-                </div>
-                <h3 className="text-3xl sm:text-4xl font-black font-display text-white leading-tight">
-                  Commercial Kitchen Set-up Wizard
+                <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
+                  Interactive Planning Tool
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+                  Kitchen Set-up Wizard
                 </h3>
-                <p className="text-slate-300 text-sm mt-3 leading-relaxed">
-                  Starting a burger joint, cafe, pizzeria, or cloud kitchen? Select your concept and let our wizard dynamically calculate your equipment list, electrical sanction kW, exhaust CFM, and estimated budget.
+                <p className="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                  Starting a burger joint, cafe, pizzeria, or cloud kitchen? Select your concept and let our wizard dynamically calculate your equipment list, electrical sanction kW, and estimated budget.
                 </p>
 
                 {/* Concept Tabs */}
-                <div className="mt-6 space-y-2">
+                <div className="mt-5 space-y-2">
                   {[
-                    { key: 'burger_joint', name: 'Burger Joint & Fast Casual', icon: Flame },
-                    { key: 'artisanal_cafe', name: 'Specialty Cafe & Roastery', icon: Coffee },
-                    { key: 'artisan_pizzeria', name: 'Artisan Pizzeria', icon: UtensilsCrossed },
-                    { key: 'cloud_kitchen', name: 'High-Volume Cloud Kitchen', icon: Layers }
+                    { key: 'burger_joint', name: 'Burger Joint & QSR' },
+                    { key: 'artisanal_cafe', name: 'Specialty Cafe & Roastery' },
+                    { key: 'artisan_pizzeria', name: 'Artisan Pizzeria' },
+                    { key: 'cloud_kitchen', name: 'High-Volume Cloud Kitchen' }
                   ].map((tab) => (
                     <button
                       key={tab.key}
                       onClick={() => setActiveConcept(tab.key)}
-                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition ${
+                      className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition ${
                         activeConcept === tab.key
-                          ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/30 font-bold'
-                          : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'
+                          ? 'bg-brand-orange text-white shadow-sm'
+                          : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <tab.icon className="w-4 h-4" />
-                        <span>{tab.name}</span>
-                      </div>
-                      <ArrowRight className={`w-4 h-4 ${activeConcept === tab.key ? 'opacity-100' : 'opacity-40'}`} />
+                      <span>{tab.name}</span>
+                      <ArrowRight className={`w-3.5 h-3.5 ${activeConcept === tab.key ? 'opacity-100' : 'opacity-40'}`} />
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Right Column: Live Calculated Blueprint Card */}
+              {/* Calculated Blueprint Card */}
               <div className="lg:col-span-7">
-                <div className="bg-[#0B0F17] border border-slate-700/80 rounded-2xl p-6 sm:p-7 shadow-xl">
-                  <div className="flex flex-wrap items-center justify-between pb-4 border-b border-slate-800 gap-2">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 shadow-sm">
+                  <div className="flex flex-wrap items-center justify-between pb-3 border-b border-slate-200 gap-2">
                     <div>
-                      <span className="text-xs uppercase font-bold text-amber-400">Blueprint Profile</span>
-                      <h4 className="text-xl font-bold font-display text-white">{selectedPreview.title}</h4>
+                      <span className="text-[10px] uppercase font-bold text-slate-500">Preset Configuration</span>
+                      <h4 className="text-base font-bold text-slate-900">{selectedPreview.title}</h4>
                     </div>
-                    <div className="px-3 py-1 bg-brand-orange/15 text-brand-orange text-xs font-bold rounded-full border border-brand-orange/30">
-                      ⚡ {selectedPreview.time}
-                    </div>
-                  </div>
-
-                  {/* Calculated metrics */}
-                  <div className="grid grid-cols-3 gap-3 my-5">
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center">
-                      <span className="text-[11px] text-slate-400 block">Est. Equipment Budget</span>
-                      <strong className="text-sm sm:text-base font-extrabold text-white">{selectedPreview.budget}</strong>
-                    </div>
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center">
-                      <span className="text-[11px] text-slate-400 block">Sanction Power</span>
-                      <strong className="text-sm sm:text-base font-extrabold text-amber-400">{selectedPreview.kw}</strong>
-                    </div>
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center">
-                      <span className="text-[11px] text-slate-400 block">Target Output</span>
-                      <strong className="text-sm sm:text-base font-extrabold text-emerald-400">{selectedPreview.orders}</strong>
-                    </div>
-                  </div>
-
-                  {/* Auto-generated Equipment Items */}
-                  <div>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">
-                      Recommended Core Equipment:
+                    <span className="text-xs font-semibold text-brand-orange bg-orange-50 px-2.5 py-0.5 rounded border border-orange-200">
+                      {selectedPreview.time}
                     </span>
-                    <ul className="space-y-2">
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2.5 my-4 text-center text-xs">
+                    <div className="bg-white border border-slate-200 rounded-lg p-2.5">
+                      <span className="text-[10px] text-slate-500 block">Est. Equipment Budget</span>
+                      <strong className="text-slate-900 font-extrabold text-sm">{selectedPreview.budget}</strong>
+                    </div>
+                    <div className="bg-white border border-slate-200 rounded-lg p-2.5">
+                      <span className="text-[10px] text-slate-500 block">Connected Power</span>
+                      <strong className="text-amber-600 font-extrabold text-sm">{selectedPreview.kw}</strong>
+                    </div>
+                    <div className="bg-white border border-slate-200 rounded-lg p-2.5">
+                      <span className="text-[10px] text-slate-500 block">Target Output</span>
+                      <strong className="text-emerald-600 font-extrabold text-sm">{selectedPreview.orders}</strong>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 block">
+                      Core Commercial Models Included:
+                    </span>
+                    <ul className="space-y-1.5 text-xs text-slate-700">
                       {selectedPreview.equipment.map((item, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-slate-200 bg-slate-900/60 px-3 py-2 rounded-lg border border-slate-800/80">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <li key={idx} className="flex items-center gap-2 bg-white px-3 py-1.5 rounded border border-slate-200">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <span className="text-xs text-slate-400">
-                      Includes Bun Warmers, Filtered Fryers, Freezers, MEP plans
+                  <div className="mt-5 pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <span className="text-[11px] text-slate-500">
+                      Includes MEP drawings, sanction load calculation & BOQ
                     </span>
                     <Link
                       to={`/wizard?concept=${activeConcept}`}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 hover:from-brand-orange-hover hover:to-amber-600 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-brand-orange/20"
+                      className="px-5 py-2 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider transition"
                     >
-                      <Wand2 className="w-4 h-4" /> Customize This Setup
+                      Customize Setup & Get BOQ
                     </Link>
                   </div>
                 </div>
@@ -354,72 +310,68 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
         </div>
       </section>
 
-      {/* 4. EQUIPMENT SHOWCASE & MIDDLEBY CELFROST CATALOG */}
-      <section className="py-20 bg-[#0B0F17]">
+      {/* 4. REAL COMMERCIAL EQUIPMENT SHOWCASE */}
+      <section className="py-16 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
-                Heavy Duty Commercial Machines
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
-                Engineered for High-Volume Service
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                Heavy Duty Commercial Hardware
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+                Featured Commercial Models
               </h2>
-              <p className="text-slate-400 text-sm sm:text-base mt-2">
-                Commercial freezers, blast chillers, bun warmers, and combi ovens engineered to handle 43°C Indian ambient temperatures.
+              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+                Real brands supplied to leading commercial kitchens across India.
               </p>
             </div>
-            <div className="mt-4 md:mt-0">
+            <div className="mt-3 md:mt-0">
               <Link
                 to="/products"
-                className="inline-flex items-center gap-2 text-sm font-bold text-brand-orange hover:text-amber-400 transition"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange hover:underline"
               >
-                <span>View Full 50+ Equipment Range</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>View Full Equipment Catalog</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* Product Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProducts.map((p) => (
               <div
                 key={p.id}
-                className="group bg-[#151D2A] border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl hover:border-brand-orange transition-all flex flex-col justify-between"
+                className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:border-slate-400 transition flex flex-col justify-between"
               >
                 <div>
-                  {/* Image container */}
-                  <div className="relative h-56 bg-slate-900/90 overflow-hidden flex items-center justify-center p-4">
+                  <div className="relative h-56 bg-slate-100 overflow-hidden flex items-center justify-center p-4">
                     <img
                       src={p.image_url || 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=800&auto=format&fit=crop&q=80'}
                       alt={p.name}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300"
+                      className="max-h-full max-w-full object-contain"
                     />
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-slate-900/90 text-amber-400 border border-amber-500/30 backdrop-blur-sm">
-                      {p.brand || 'ChefMachines Pro'}
+                    <div className="absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white text-slate-900 border border-slate-200 shadow-sm">
+                      {p.brand}
                     </div>
                     {p.model && (
-                      <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-[10px] font-mono bg-black/75 text-slate-300 border border-slate-700">
+                      <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-[10px] font-mono bg-white text-slate-600 border border-slate-200">
                         {p.model}
                       </div>
                     )}
                   </div>
 
-                  {/* Body */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold font-display text-white line-clamp-2 group-hover:text-amber-400 transition">
-                      {p.name}
+                  <div className="p-5">
+                    <h3 className="text-base font-bold text-slate-900 line-clamp-2 hover:text-brand-orange transition">
+                      <Link to={`/products/${p.slug}`}>{p.name}</Link>
                     </h3>
-                    <p className="text-slate-400 text-xs mt-2 line-clamp-2 leading-relaxed">
+                    <p className="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">
                       {p.description}
                     </p>
 
-                    {/* Features list */}
                     {p.features && p.features.length > 0 && (
-                      <ul className="mt-4 space-y-1">
+                      <ul className="mt-3 space-y-1 text-[11px] text-slate-600">
                         {p.features.slice(0, 2).map((feat, fIdx) => (
-                          <li key={fIdx} className="flex items-center gap-1.5 text-[11px] text-slate-300">
-                            <span className="w-1 h-1 rounded-full bg-brand-orange" />
+                          <li key={fIdx} className="flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
                             <span className="truncate">{feat}</span>
                           </li>
                         ))}
@@ -428,22 +380,21 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
                   </div>
                 </div>
 
-                {/* Footer / RFQ Button */}
-                <div className="p-6 pt-0 border-t border-slate-800/80 mt-4 flex items-center justify-between">
+                <div className="p-5 pt-0 border-t border-slate-100 mt-3 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Commercial RFQ</span>
-                    <span className="text-sm font-bold text-white">Direct Factory Pricing</span>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">B2B Commercial</span>
+                    <span className="text-xs font-bold text-slate-900">Direct Factory RFQ</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Link
                       to={`/products/${p.slug}`}
-                      className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 rounded-xl transition"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 rounded-lg transition"
                     >
                       Specs
                     </Link>
                     <button
                       onClick={() => onOpenQuoteModal(p.name)}
-                      className="px-3.5 py-2 bg-brand-orange hover:bg-brand-orange-hover text-xs font-bold text-white rounded-xl shadow-md shadow-brand-orange/30 transition"
+                      className="px-3.5 py-1.5 bg-brand-orange hover:bg-brand-orange-hover text-xs font-bold text-white rounded-lg transition"
                     >
                       Request Quote
                     </button>
@@ -455,44 +406,35 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
         </div>
       </section>
 
-      {/* 5. INTERACTIVE SIZING & ROI CALCULATORS (HOME PREVIEW) */}
-      <section className="py-20 bg-gradient-to-b from-[#0E141E] to-[#0B0F17] border-t border-slate-800/80">
+      {/* 5. CALCULATORS PREVIEW */}
+      <section className="py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3">
-              <Calculator className="w-4 h-4" /> Commercial Engineering Calculators
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
-              Sizing Your Equipment Accurately
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+              Engineering Sizing Suite
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+              Commercial Sizing Calculators
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Avoid buying undersized machines that burn out during peak rush, or oversized units that inflate electricity bills.
+            <p className="text-slate-600 text-xs sm:text-sm mt-1">
+              Avoid buying undersized units that break down during rush, or oversized units that inflate electricity bills.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Quick Calculator 1: Espresso Peak Throughput */}
-            <div className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Calculator 1 */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
-                    <Coffee className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white font-display">Coffee Machine Sizer</h3>
-                    <span className="text-xs text-slate-400">Peak hour cup extraction & boiler sizing</span>
-                  </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">Espresso Machine Sizer</h3>
+                  <span className="text-xs text-slate-500">Peak hour cup extraction & boiler sizing</span>
                 </div>
-                <span className="text-xs font-mono bg-slate-900 px-2.5 py-1 rounded-full text-amber-400 border border-slate-700">
+                <span className="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-700">
                   {calcCups} cups/day
                 </span>
               </div>
 
-              <div className="my-6">
-                <label className="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2">
-                  <span>Expected Daily Coffee Cups:</span>
-                  <span className="font-mono text-white text-sm">{calcCups} cups</span>
-                </label>
+              <div className="my-5">
                 <input
                   type="range"
                   min="50"
@@ -504,241 +446,156 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3 bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+              <div className="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs mb-4">
                 <div>
-                  <span className="text-[11px] text-slate-400 block">Peak Hour Load (35% rush)</span>
-                  <strong className="text-lg font-bold text-white">
+                  <span className="text-[10px] text-slate-500 block">Peak Load (35% rush)</span>
+                  <strong className="text-sm font-bold text-slate-900">
                     {Math.round((calcCups * 0.35) / 2)} cups/hr
                   </strong>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-400 block">Recommended Machine</span>
-                  <strong className="text-base font-bold text-amber-400">
-                    {calcCups <= 150 ? '1-Group Dual Boiler' : calcCups <= 450 ? '2-Group Commercial' : '3-Group Multi-Boiler'}
+                  <span className="text-[10px] text-slate-500 block">Recommended Machine</span>
+                  <strong className="text-sm font-bold text-brand-orange">
+                    {calcCups <= 150 ? '1-Group Commercial' : calcCups <= 450 ? '2-Group Dual Boiler (La Marzocco / La Cimbali)' : '3-Group Multi-Boiler'}
                   </strong>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-slate-400">Full specs & steam boiler requirements</span>
-                <Link
-                  to="/calculators"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-white"
-                >
-                  Open Full Calculator <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link to="/calculators" className="text-xs font-bold text-brand-orange hover:underline inline-flex items-center gap-1">
+                Open Full Calculator <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
 
-            {/* Quick Calculator 2: Cold Room Storage Volume */}
-            <div className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl">
+            {/* Calculator 2 */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center">
-                    <Snowflake className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white font-display">Cold Room Sizer</h3>
-                    <span className="text-xs text-slate-400">Walk-in chiller & freezer volume capacity</span>
-                  </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">Cold Room Volume Sizer</h3>
+                  <span className="text-xs text-slate-500">Walk-in chiller & freezer compressor sizing</span>
                 </div>
-                <span className="text-xs font-mono bg-slate-900 px-2.5 py-1 rounded-full text-cyan-400 border border-slate-700">
+                <span className="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-700">
                   {calcRoomLen} x {calcRoomWid} ft
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 my-6">
+              <div className="grid grid-cols-2 gap-3 my-5">
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 block mb-1">Length: {calcRoomLen} ft</label>
+                  <label className="text-[10px] text-slate-500 block mb-1">Length: {calcRoomLen} ft</label>
                   <input
                     type="range"
                     min="6"
                     max="30"
                     value={calcRoomLen}
                     onChange={(e) => setCalcRoomLen(Number(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer"
+                    className="w-full accent-brand-orange cursor-pointer"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 block mb-1">Width: {calcRoomWid} ft</label>
+                  <label className="text-[10px] text-slate-500 block mb-1">Width: {calcRoomWid} ft</label>
                   <input
                     type="range"
                     min="6"
                     max="25"
                     value={calcRoomWid}
                     onChange={(e) => setCalcRoomWid(Number(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer"
+                    className="w-full accent-brand-orange cursor-pointer"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+              <div className="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs mb-4">
                 <div>
-                  <span className="text-[11px] text-slate-400 block">Total Storage Volume (at 8.5ft H)</span>
-                  <strong className="text-lg font-bold text-white">
+                  <span className="text-[10px] text-slate-500 block">Total Volume (at 8.5ft H)</span>
+                  <strong className="text-sm font-bold text-slate-900">
                     {Math.round(calcRoomLen * calcRoomWid * 8.5)} Cu Ft
                   </strong>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-400 block">Recommended Compressor</span>
-                  <strong className="text-base font-bold text-cyan-400">
+                  <span className="text-[10px] text-slate-500 block">Recommended Compressor</span>
+                  <strong className="text-sm font-bold text-brand-orange">
                     {Math.max(1.5, Math.round(((calcRoomLen * calcRoomWid * 8.5) / 450) * 10) / 10)} HP Unit
                   </strong>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-slate-400">Includes PUF panels & BTU loads</span>
-                <Link
-                  to="/calculators"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-white"
-                >
-                  Open Full Calculator <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link to="/calculators" className="text-xs font-bold text-brand-orange hover:underline inline-flex items-center gap-1">
+                Open Full Calculator <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. TRAINING ACADEMY SPOTLIGHT */}
-      <section className="py-20 bg-[#0B0F17]">
+      {/* 6. TRAINING ACADEMY */}
+      <section className="py-16 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-slate-900 via-[#182332] to-slate-900 border border-slate-700/80 rounded-3xl p-8 sm:p-12 shadow-2xl">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-7">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
-                  <GraduationCap className="w-4 h-4" /> ChefMachines Academy
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-black font-display text-white">
-                  Train Your Manpower to Become World-Class Baristas & Chefs
+              <div className="lg:col-span-8">
+                <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
+                  Pillar 3: Manpower Training
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+                  Barista & Kitchen Equipment Training Academy
                 </h2>
-                <p className="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
-                  The #1 reason commercial food businesses fail to scale isn't the equipment—it's untrained staff abusing machines and serving inconsistent recipes. Our certified trainers conduct hands-on training on your exact equipment.
+                <p className="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                  The #1 reason commercial food businesses struggle is untrained staff mismanaging equipment and serving inconsistent recipes. Our certified trainers conduct hands-on training on your exact machines.
                 </p>
 
-                <div className="mt-6 space-y-3">
+                <div className="mt-5 space-y-2.5">
                   {trainingModules.map((tm) => (
-                    <div key={tm.id} className="flex items-center justify-between bg-slate-900/80 border border-slate-800 rounded-xl p-3.5">
+                    <div key={tm.id} className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-3 text-xs">
                       <div>
-                        <h4 className="text-sm font-bold text-white">{tm.title}</h4>
-                        <div className="flex items-center gap-3 text-xs text-slate-400 mt-0.5">
-                          <span>⏱️ {tm.duration}</span>
-                          <span>•</span>
-                          <span className="text-emerald-400">{tm.badge || 'Certified'}</span>
-                        </div>
+                        <h4 className="font-bold text-slate-900">{tm.title}</h4>
+                        <span className="text-slate-500">{tm.duration} • {tm.badge}</span>
                       </div>
                       <Link
                         to="/training"
-                        className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs font-bold hover:bg-emerald-500 hover:text-slate-900 transition"
+                        className="px-3 py-1.5 rounded-lg bg-orange-50 text-brand-orange font-bold text-[11px] hover:bg-orange-100 transition"
                       >
-                        Enroll Crew
+                        Details
                       </Link>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="lg:col-span-5 flex flex-col justify-center">
-                <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 text-center shadow-xl">
-                  <div className="w-16 h-16 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center mx-auto mb-4 border border-brand-orange/40">
-                    <ChefHat className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-bold font-display text-white">Custom On-Site Academy</h3>
-                  <p className="text-slate-400 text-xs mt-2 leading-relaxed">
-                    Opening 5+ outlets? We dispatch our master trainers directly to your kitchen commissary for comprehensive multi-day staff certification.
-                  </p>
-                  <button
-                    onClick={() => onOpenQuoteModal("Custom On-Site Staff Training Program")}
-                    className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-500/20"
-                  >
-                    Request Corporate Training Quote
-                  </button>
-                </div>
+              <div className="lg:col-span-4 bg-white border border-slate-200 rounded-xl p-5 text-center">
+                <h3 className="text-base font-bold text-slate-900 mb-1">On-Site Crew Certification</h3>
+                <p className="text-slate-500 text-xs mb-4">
+                  Opening an outlet? We dispatch master trainers to your location for complete crew certification.
+                </p>
+                <button
+                  onClick={() => onOpenQuoteModal("On-Site Staff Training Academy Program")}
+                  className="w-full py-2.5 rounded-xl bg-brand-orange text-white font-bold text-xs uppercase tracking-wider hover:bg-brand-orange-hover transition"
+                >
+                  Request Training Quote
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. LATEST BLOGS & RESOURCES */}
-      <section className="py-20 bg-[#0E131C] border-t border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-wider mb-2">
-                <BookOpen className="w-4 h-4" /> Commercial Knowledge Hub
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black font-display text-white">
-                Kitchen Setup Guides & Checklists
-              </h2>
-            </div>
-            <Link to="/blogs" className="mt-3 sm:mt-0 text-sm font-bold text-brand-orange hover:text-amber-400 inline-flex items-center gap-1.5">
-              <span>View All Articles</span> <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {recentBlogs.map((b) => (
-              <div
-                key={b.id}
-                className="bg-[#151D2A] border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl hover:border-slate-500 transition flex flex-col justify-between"
-              >
-                <div>
-                  <div className="h-44 bg-slate-900 overflow-hidden relative">
-                    <img
-                      src={b.cover_image || 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&auto=format&fit=crop&q=80'}
-                      alt={b.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition"
-                    />
-                    <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-black/75 text-amber-400 border border-amber-400/30">
-                      {b.category}
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <span className="text-[11px] text-slate-400 block mb-1">⏱️ {b.read_time}</span>
-                    <h3 className="text-base font-bold text-white line-clamp-2 leading-snug hover:text-brand-orange transition">
-                      <Link to={`/blogs/${b.slug}`}>{b.title}</Link>
-                    </h3>
-                    <p className="text-slate-400 text-xs mt-2 line-clamp-3 leading-relaxed">
-                      {b.excerpt}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-5 pt-0">
-                  <Link
-                    to={`/blogs/${b.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-brand-orange hover:text-amber-400"
-                  >
-                    Read Engineering Guide <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. BOTTOM HERO CTA: TURNKEY CONSULTATION */}
-      <section className="py-20 bg-gradient-to-r from-brand-orange via-amber-600 to-brand-orange text-white text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white leading-tight">
-            Ready to Build Your 500+ Grade Commercial Kitchen?
+      {/* 7. BOTTOM CTA */}
+      <section className="py-16 bg-slate-900 text-white text-center">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-4xl font-extrabold font-display">
+            Plan Your Commercial Kitchen Layout
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-amber-100 max-w-2xl mx-auto">
-            Book a 30-minute kitchen layout and equipment audit with our senior commercial MEP engineers. Free consultation.
+          <p className="mt-2 text-slate-400 text-xs sm:text-sm">
+            Book a consultation with our senior commercial MEP engineers for floor plans, 3-phase electrical loads, and equipment BOQs.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
-              onClick={() => onOpenQuoteModal("30-Minute Commercial Kitchen Layout & Equipment Consultation")}
-              className="w-full sm:w-auto px-8 py-4 bg-slate-950 hover:bg-slate-900 text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-2xl transition"
+              onClick={() => onOpenQuoteModal("Commercial Kitchen Consultation")}
+              className="w-full sm:w-auto px-6 py-3 bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition"
             >
               Book Commercial Kitchen Audit
             </button>
             <Link
               to="/wizard"
-              className="w-full sm:w-auto px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold text-sm uppercase tracking-wider rounded-2xl border border-white/30 transition"
+              className="w-full sm:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider rounded-xl border border-slate-700 transition"
             >
               Run Setup Wizard Flow
             </Link>

@@ -1,17 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Sparkles,
-  Layers,
-  CheckCircle2,
-  PhoneCall,
-  Wand2,
-  ShieldCheck,
-  Compass,
-  Zap,
-  Flame,
-  ArrowRight
-} from 'lucide-react';
 
 interface TurnkeyProps {
   onOpenQuoteModal: (equipment?: string) => void;
@@ -52,89 +40,64 @@ export const TurnkeySolutions: React.FC<TurnkeyProps> = ({ onOpenQuoteModal }) =
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-4 h-4" /> Pillar 2: Turnkey Engineering
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black font-display text-white">
-            End-to-End Turnkey Kitchen Setups
+        <div className="max-w-2xl mb-10">
+          <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
+            Pillar 2: Commercial Turnkey Solutions
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-display">
+            Turnkey Kitchen Setups
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">
-            From an empty bare shell to a fully operational, revenue-generating commercial kitchen. Over 500+ cafes, burger joints, bars, and cloud kitchens launched on time and within budget.
+          <p className="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">
+            From empty shell to fully operating kitchen. Over 500+ commercial setups completed for burger joints, specialty cafes, hotel banquets, and cloud kitchens.
           </p>
         </div>
 
-        {/* 5-Step Process Timeline */}
-        <div className="space-y-6 mb-16">
-          {steps.map((s, idx) => (
+        {/* 5-Step Process */}
+        <div className="space-y-4 mb-12">
+          {steps.map((s) => (
             <div
               key={s.step}
-              className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+              className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
             >
-              <div className="flex items-start gap-5">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-amber-500 text-white font-display font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-brand-orange/20">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-orange-100 text-brand-orange font-bold text-base flex items-center justify-center shrink-0">
                   {s.step}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold font-display text-white mb-2">{s.title}</h3>
-                  <p className="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">{s.desc}</p>
+                  <h3 className="text-base font-bold text-slate-900 mb-1">{s.title}</h3>
+                  <p className="text-slate-600 text-xs max-w-xl leading-relaxed">{s.desc}</p>
                 </div>
               </div>
 
-              <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs shrink-0 w-full md:w-64">
-                <span className="text-[10px] uppercase font-bold text-amber-400 block mb-1">Deliverables</span>
-                <span className="text-slate-300 font-semibold">{s.deliverables}</span>
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs shrink-0 w-full md:w-56">
+                <span className="text-[10px] font-bold text-slate-500 uppercase block mb-0.5">Deliverables</span>
+                <span className="text-slate-800 font-semibold text-[11px]">{s.deliverables}</span>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Concepts We Specialize In */}
-        <div className="bg-gradient-to-r from-slate-900 via-[#182332] to-slate-900 border border-slate-700/80 rounded-3xl p-8 sm:p-12 shadow-2xl mb-16">
-          <h2 className="text-2xl sm:text-3xl font-black font-display text-white mb-6 text-center">
-            Turnkey Concepts We Deliver Across India
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-            {[
-              { title: 'Gourmet Burger Joints', desc: 'Bun warmers, 3-phase fryers, clamshell griddles, refrigerated prep lines' },
-              { title: 'Specialty Cafes & Roasteries', desc: 'Espresso bars, pitcher rinsers, ice machines, acoustic blenders' },
-              { title: 'Artisan Pizzerias', desc: 'Conveyor & deck ovens, spiral dough mixers, marble prep tables' },
-              { title: 'High-Volume Cloud Kitchens', desc: 'Combi ovens, blast chillers, walk-in cold rooms, multi-burner lines' },
-              { title: 'Cocktail Bars & Lounges', desc: 'Underbar cocktail stations, speed rails, rapid glasswashers' },
-              { title: 'Bakeries & Patisseries', desc: 'Rotary ovens, planetary mixers, retarder proofers, dough sheeters' }
-            ].map((c, i) => (
-              <div key={i} className="bg-slate-950/70 border border-slate-800 rounded-2xl p-4">
-                <h4 className="text-sm font-bold text-white mb-1 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> {c.title}
-                </h4>
-                <p className="text-slate-400 text-[11px] leading-relaxed">{c.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Turnkey Call to Action */}
-        <div className="text-center bg-gradient-to-r from-brand-orange to-amber-600 rounded-3xl p-8 sm:p-12 shadow-2xl">
-          <h2 className="text-3xl sm:text-4xl font-black font-display text-white">
-            Book a Commercial Kitchen Site Audit
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+            Schedule a Commercial Site Audit
           </h2>
-          <p className="text-amber-100 text-sm sm:text-base mt-2 max-w-xl mx-auto">
-            Our MEP engineers will review your floor plan, connected power, and exhaust shaft to deliver a turnkey layout proposal.
+          <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-5">
+            Our MEP engineers review your floor plans, power connections, and exhaust shafts to prepare an accurate turnkey BOQ.
           </p>
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
-              onClick={() => onOpenQuoteModal("Commercial Kitchen Turnkey Setup Consultation")}
-              className="px-8 py-3.5 bg-slate-950 hover:bg-slate-900 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition shadow-xl"
+              onClick={() => onOpenQuoteModal("Commercial Kitchen Site Audit & Turnkey Setup")}
+              className="px-6 py-2.5 bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition"
             >
-              Request Turnkey Consultation
+              Request Site Audit
             </button>
             <Link
               to="/wizard"
-              className="px-8 py-3.5 bg-white/20 hover:bg-white/30 text-white font-bold text-xs uppercase tracking-wider rounded-xl border border-white/30 transition"
+              className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl border border-slate-200 transition"
             >
               Run Setup Wizard
             </Link>

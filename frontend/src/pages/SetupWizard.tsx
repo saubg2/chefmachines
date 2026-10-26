@@ -1,30 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import {
-  Wand2,
-  CheckCircle2,
-  Layers,
-  Flame,
-  Coffee,
-  UtensilsCrossed,
-  Wine,
-  Zap,
-  Gauge,
-  Wind,
-  SquareDashedBottom,
-  Download,
-  Share2,
-  ArrowRight,
-  ArrowLeft,
-  DollarSign,
-  AlertCircle,
-  Building,
-  Phone,
-  Mail,
-  User,
-  MapPin,
-  Sparkles
-} from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { api, WizardPreset } from '../services/api';
 
 export const SetupWizard: React.FC = () => {
@@ -35,9 +11,9 @@ export const SetupWizard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   // Wizard Flow States
-  const [currentStep, setCurrentStep] = useState(1); // 1: Concept, 2: Scale, 3: Equipment, 4: Engineering & Quote
+  const [currentStep, setCurrentStep] = useState(1);
   const [selectedConcept, setSelectedConcept] = useState<string>(initialConcept);
-  const [selectedScale, setSelectedScale] = useState<string>('medium'); // small, medium, large
+  const [selectedScale, setSelectedScale] = useState<string>('medium');
   const [customItems, setCustomItems] = useState<any[]>([]);
 
   // Calculation Results
@@ -72,7 +48,6 @@ export const SetupWizard: React.FC = () => {
       });
   }, []);
 
-  // When concept or scale changes, refresh equipment list
   const activePreset = presets.find((p) => p.concept_key === selectedConcept);
 
   const handleConceptChange = (conceptKey: string) => {
@@ -103,7 +78,6 @@ export const SetupWizard: React.FC = () => {
     setCustomItems(updated);
   };
 
-  // Run calculation when moving to step 4
   useEffect(() => {
     if (activePreset && customItems.length > 0) {
       const activeItems = customItems.filter((i) => i.selected !== false);
@@ -148,103 +122,85 @@ export const SetupWizard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0B0F17] text-white">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-brand-orange border-t-transparent rounded-full animate-spin" />
-          <p className="text-slate-400 font-semibold text-sm">Loading Commercial Kitchen Wizard Engine...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-600 text-xs">
+        Loading Commercial Setup Wizard...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Wizard Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-orange/15 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-wider mb-3">
-            <Wand2 className="w-4 h-4" /> 500+ Cafe Architecture Engine
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black font-display text-white">
-            Commercial Kitchen Set-up Wizard
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="text-xs font-bold text-brand-orange uppercase tracking-wider block mb-1">
+            Commercial Kitchen Configurator
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-display">
+            Kitchen Set-up Wizard
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base mt-2">
-            Configure your dream food concept step-by-step. Get an automated equipment list, MEP utility load calculation, and instant commercial quotation.
+          <p className="text-slate-600 text-xs sm:text-sm mt-1">
+            Configure your commercial food concept step-by-step. Generates equipment list, utility electrical load (kW), and instant quotation.
           </p>
         </div>
 
-        {/* Wizard Step Progress Indicator */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <div className="grid grid-cols-4 gap-2 text-center text-xs">
-            {[
-              { num: 1, name: 'Concept Type' },
-              { num: 2, name: 'Scale & Output' },
-              { num: 3, name: 'Equipment List' },
-              { num: 4, name: 'Engineering & Quote' }
-            ].map((s) => (
-              <button
-                key={s.num}
-                onClick={() => setCurrentStep(s.num)}
-                className={`py-3 px-2 rounded-xl border flex flex-col items-center gap-1 transition ${
-                  currentStep === s.num
-                    ? 'bg-brand-orange border-brand-orange text-white font-bold shadow-lg shadow-brand-orange/25'
-                    : currentStep > s.num
-                    ? 'bg-slate-900 border-slate-700 text-emerald-400 font-semibold'
-                    : 'bg-slate-900/50 border-slate-800 text-slate-500'
-                }`}
-              >
-                <div className="flex items-center gap-1">
-                  {currentStep > s.num ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  ) : (
-                    <span>Step {s.num}</span>
-                  )}
-                </div>
-                <span className="truncate">{s.name}</span>
-              </button>
-            ))}
-          </div>
+        {/* Step Tabs */}
+        <div className="grid grid-cols-4 gap-2 text-center text-xs mb-8 max-w-2xl mx-auto">
+          {[
+            { num: 1, name: '1. Concept' },
+            { num: 2, name: '2. Scale' },
+            { num: 3, name: '3. Equipment' },
+            { num: 4, name: '4. Quotation' }
+          ].map((s) => (
+            <button
+              key={s.num}
+              onClick={() => setCurrentStep(s.num)}
+              className={`py-2 px-1 rounded-xl border text-xs font-semibold transition ${
+                currentStep === s.num
+                  ? 'bg-brand-orange border-brand-orange text-white font-bold shadow-sm'
+                  : currentStep > s.num
+                  ? 'bg-white border-slate-300 text-emerald-700'
+                  : 'bg-white border-slate-200 text-slate-400'
+              }`}
+            >
+              {s.name}
+            </button>
+          ))}
         </div>
 
-        {/* ================= STEP 1: CONCEPT SELECTION ================= */}
+        {/* STEP 1: CONCEPT */}
         {currentStep === 1 && (
-          <div className="animate-in fade-in duration-300">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold font-display text-white">Select Your Food Business Concept</h2>
-              <p className="text-slate-400 text-sm mt-1">
-                Each concept loads custom equipment blueprints honed over 500+ live installations.
-              </p>
+          <div>
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold text-slate-900">Select Food Business Concept</h2>
+              <p className="text-slate-500 text-xs mt-0.5">Pre-configured blueprints based on 500+ commercial installations.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 {
                   key: 'burger_joint',
                   title: 'Burger Joint & QSR',
-                  desc: 'High-speed bun warmers, twin filtered fryers, chrome griddles, sauce pumps, and prep counters.',
-                  icon: Flame,
+                  desc: 'Toastmaster vertical bun toasters, Pitco 35C+ gas fryers, chrome griddles, and Hoshizaki prep counters.',
                   tag: 'Most Popular'
                 },
                 {
                   key: 'artisanal_cafe',
                   title: 'Specialty Cafe & Roastery',
-                  desc: 'Multi-boiler espresso machines, on-demand grinders, gourmet ice makers, and pitcher rinsers.',
-                  icon: Coffee,
+                  desc: 'La Marzocco Linea Classic / La Cimbali M26, Fiorenzato grinders, Marco water fonts, and Electrolux glasswashers.',
                   tag: 'Specialty Beverage'
                 },
                 {
                   key: 'artisan_pizzeria',
                   title: 'Artisan Pizzeria',
-                  desc: 'Conveyor/deck pizza ovens, 40kg spiral dough kneaders, granite prep tables, and blast chillers.',
-                  icon: UtensilsCrossed,
-                  tag: 'Baking & Pizza'
+                  desc: 'Middleby Marshall PS540 conveyor ovens, Sinmag spiral mixers, and Celfrost granite prep rails.',
+                  tag: 'Pizza & Baking'
                 },
                 {
                   key: 'cloud_kitchen',
                   title: 'Multi-Brand Cloud Kitchen',
-                  desc: 'Combi steam ovens, walk-in cold rooms, multi-burner lines, and heavy-duty hood sanitizers.',
-                  icon: Layers,
-                  tag: 'High-Volume Delivery'
+                  desc: 'TurboChef rapid ovens, Pitco multi-vat fryers, Celfrost walk-in cold rooms, and Electrolux warewashers.',
+                  tag: 'High Volume Delivery'
                 }
               ].map((c) => {
                 const isSelected = selectedConcept === c.key;
@@ -252,87 +208,72 @@ export const SetupWizard: React.FC = () => {
                   <div
                     key={c.key}
                     onClick={() => handleConceptChange(c.key)}
-                    className={`cursor-pointer rounded-3xl p-6 border transition-all flex flex-col justify-between ${
+                    className={`cursor-pointer rounded-2xl p-5 border transition flex flex-col justify-between ${
                       isSelected
-                        ? 'bg-gradient-to-b from-[#1E2C3F] to-[#141C2A] border-brand-orange shadow-2xl shadow-brand-orange/20 scale-[1.02]'
-                        : 'bg-[#151D2A] border-slate-800 hover:border-slate-600'
+                        ? 'bg-orange-50/50 border-brand-orange shadow-sm'
+                        : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                          isSelected ? 'bg-brand-orange text-white' : 'bg-slate-800 text-slate-300'
-                        }`}>
-                          <c.icon className="w-6 h-6" />
-                        </div>
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                          isSelected ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'
-                        }`}>
-                          {c.tag}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold font-display text-white mb-2">{c.title}</h3>
-                      <p className="text-slate-400 text-xs leading-relaxed">{c.desc}</p>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">
+                        {c.tag}
+                      </span>
+                      <h3 className="text-base font-bold text-slate-900 mb-1">{c.title}</h3>
+                      <p className="text-slate-600 text-xs leading-relaxed">{c.desc}</p>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-300">
-                        {isSelected ? '✓ Selected' : 'Choose Concept'}
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                      <span className={isSelected ? 'text-brand-orange font-bold' : 'text-slate-500'}>
+                        {isSelected ? '✓ Selected' : 'Choose'}
                       </span>
-                      <ArrowRight className={`w-4 h-4 ${isSelected ? 'text-brand-orange' : 'text-slate-500'}`} />
+                      <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="mt-12 text-center">
+            <div className="mt-8 text-center">
               <button
                 onClick={() => setCurrentStep(2)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-amber-500 hover:from-brand-orange-hover hover:to-amber-600 text-white font-bold text-sm shadow-xl shadow-brand-orange/25 transition"
+                className="px-6 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider transition"
               >
-                <span>Continue to Step 2: Scale & Output</span>
-                <ArrowRight className="w-4 h-4" />
+                Proceed to Scale & Capacity →
               </button>
             </div>
           </div>
         )}
 
-        {/* ================= STEP 2: SCALE & OUTPUT ================= */}
+        {/* STEP 2: SCALE */}
         {currentStep === 2 && (
-          <div className="animate-in fade-in duration-300">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold font-display text-white">Select Scale & Kitchen Capacity</h2>
-              <p className="text-slate-400 text-sm mt-1">
-                Choose your projected daily volume. This auto-sizes equipment throughput and power sanctions.
-              </p>
+          <div>
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold text-slate-900">Select Scale & Kitchen Capacity</h2>
+              <p className="text-slate-500 text-xs mt-0.5">Determines throughput volume and electrical sanction loads.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
               {[
                 {
                   tier: 'small',
                   name: 'Boutique / Kiosk / Pilot Outlet',
                   orders: '50 - 150 Orders / Day',
                   sqft: '200 - 450 sq ft',
-                  desc: 'Compact footprint, essential commercial items, rapid startup capital, single-phase compatible where possible.',
-                  badge: 'Entry / Quick Setup'
+                  desc: 'Compact footprint, essential commercial equipment, rapid startup.'
                 },
                 {
                   tier: 'medium',
                   name: 'Standard High-Volume Outlet',
                   orders: '200 - 500 Orders / Day',
                   sqft: '450 - 850 sq ft',
-                  desc: 'The gold standard format for high-turnover QSR and cafes. Automated oil filtration, dual bun toasters, chilled rails.',
-                  badge: 'Most Popular (80% of Clients)'
+                  desc: 'The industry benchmark for QSR burger outlets and high-traffic cafes.'
                 },
                 {
                   tier: 'large',
                   name: 'Flagship / Commissary / Mega Scale',
                   orders: '500 - 1,500+ Orders / Day',
                   sqft: '850 - 2,500 sq ft',
-                  desc: 'Maximum throughput. Twin 3-phase fryers, walk-in cold rooms, multi-deck ovens, automated conveyor systems.',
-                  badge: 'Enterprise / Chains'
+                  desc: 'Dual lines, 3-phase high-output machines, walk-in cold rooms.'
                 }
               ].map((s) => {
                 const isSelected = selectedScale === s.tier;
@@ -340,167 +281,140 @@ export const SetupWizard: React.FC = () => {
                   <div
                     key={s.tier}
                     onClick={() => handleScaleChange(s.tier)}
-                    className={`cursor-pointer rounded-3xl p-6 border transition-all flex flex-col justify-between ${
+                    className={`cursor-pointer rounded-2xl p-5 border transition flex flex-col justify-between ${
                       isSelected
-                        ? 'bg-gradient-to-b from-[#1E2C3F] to-[#141C2A] border-amber-400 shadow-2xl shadow-amber-400/20 scale-[1.02]'
-                        : 'bg-[#151D2A] border-slate-800 hover:border-slate-600'
+                        ? 'bg-orange-50/50 border-brand-orange shadow-sm'
+                        : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border inline-block mb-3 ${
-                        isSelected ? 'bg-amber-400/20 text-amber-300 border-amber-400/50' : 'bg-slate-800 text-slate-400 border-slate-700'
-                      }`}>
-                        {s.badge}
-                      </span>
-                      <h3 className="text-xl font-bold font-display text-white mb-2">{s.name}</h3>
-                      <div className="space-y-1.5 my-3 text-xs">
-                        <div className="flex items-center justify-between text-slate-300">
-                          <span className="text-slate-400">Target Orders:</span>
-                          <strong className="text-white">{s.orders}</strong>
-                        </div>
-                        <div className="flex items-center justify-between text-slate-300">
-                          <span className="text-slate-400">Kitchen Footprint:</span>
-                          <strong className="text-amber-400">{s.sqft}</strong>
-                        </div>
+                      <h3 className="text-base font-bold text-slate-900 mb-1">{s.name}</h3>
+                      <div className="text-xs text-slate-600 space-y-0.5 my-2">
+                        <p>Orders: <strong className="text-slate-900">{s.orders}</strong></p>
+                        <p>Space: <strong className="text-slate-900">{s.sqft}</strong></p>
                       </div>
-                      <p className="text-slate-400 text-xs leading-relaxed">{s.desc}</p>
+                      <p className="text-slate-500 text-xs leading-relaxed">{s.desc}</p>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-300">
-                        {isSelected ? '✓ Selected Scale' : 'Select'}
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                      <span className={isSelected ? 'text-brand-orange font-bold' : 'text-slate-500'}>
+                        {isSelected ? '✓ Selected' : 'Select'}
                       </span>
-                      <ArrowRight className={`w-4 h-4 ${isSelected ? 'text-amber-400' : 'text-slate-500'}`} />
+                      <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="mt-12 flex items-center justify-center gap-4">
+            <div className="mt-8 flex items-center justify-center gap-3">
               <button
                 onClick={() => setCurrentStep(1)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition"
+                className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs"
               >
-                <ArrowLeft className="w-4 h-4" /> Back to Concepts
+                Back
               </button>
               <button
                 onClick={() => setCurrentStep(3)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-amber-500 hover:from-brand-orange-hover hover:to-amber-600 text-white font-bold text-sm shadow-xl shadow-brand-orange/25 transition"
+                className="px-6 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider transition"
               >
-                <span>Continue to Step 3: Equipment Checklist</span>
-                <ArrowRight className="w-4 h-4" />
+                View Equipment Checklist →
               </button>
             </div>
           </div>
         )}
 
-        {/* ================= STEP 3: EQUIPMENT CHECKLIST ================= */}
+        {/* STEP 3: EQUIPMENT LIST */}
         {currentStep === 3 && (
-          <div className="animate-in fade-in duration-300">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-2">
-                Concept: {selectedConcept.replace('_', ' ').toUpperCase()} • Scale: {selectedScale.toUpperCase()}
-              </div>
-              <h2 className="text-2xl font-bold font-display text-white">Recommended Equipment Checklist</h2>
-              <p className="text-slate-400 text-sm mt-1">
-                Toggle items on/off or adjust quantities. Your electrical power (kW) and budget update automatically.
-              </p>
+          <div>
+            <div className="text-center mb-6">
+              <span className="text-xs font-semibold text-brand-orange">
+                {selectedConcept.replace('_', ' ').toUpperCase()} • {selectedScale.toUpperCase()} SCALE
+              </span>
+              <h2 className="text-xl font-bold text-slate-900">Commercial Equipment Checklist</h2>
+              <p className="text-slate-500 text-xs mt-0.5">Toggle items or adjust quantities. Connected load updates automatically.</p>
             </div>
 
-            <div className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 sm:p-8 max-w-4xl mx-auto shadow-2xl">
-              <div className="space-y-3">
-                {customItems.map((item, idx) => {
-                  const isChecked = item.selected !== false;
-                  return (
-                    <div
-                      key={idx}
-                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl border transition ${
-                        isChecked
-                          ? 'bg-[#111823] border-slate-700'
-                          : 'bg-slate-900/40 border-slate-800/60 opacity-50'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => toggleEquipmentItem(idx)}
-                          className="mt-1 w-5 h-5 accent-brand-orange cursor-pointer rounded"
-                        />
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-sm font-bold text-white">{item.name}</h4>
-                            {item.must_have && (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-orange/20 text-brand-orange border border-brand-orange/40">
-                                Essential
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1">
-                            <span>Category: <strong className="text-slate-300">{item.category}</strong></span>
-                            <span>•</span>
-                            <span>Connected Load: <strong className="text-amber-400">{item.kw} kW</strong></span>
-                          </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm max-w-3xl mx-auto space-y-3">
+              {customItems.map((item, idx) => {
+                const isChecked = item.selected !== false;
+                return (
+                  <div
+                    key={idx}
+                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border transition ${
+                      isChecked ? 'bg-slate-50/70 border-slate-200' : 'bg-slate-50/20 border-slate-100 opacity-40'
+                    }`}
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => toggleEquipmentItem(idx)}
+                        className="mt-0.5 w-4 h-4 accent-brand-orange cursor-pointer rounded"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-xs sm:text-sm font-bold text-slate-900">{item.name}</h4>
+                          {item.must_have && (
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-orange-100 text-brand-orange">
+                              Essential
+                            </span>
+                          )}
                         </div>
-                      </div>
-
-                      {/* Quantity & Est Price */}
-                      <div className="flex items-center justify-between sm:justify-end gap-6 mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-0 border-slate-800">
-                        <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg p-1 text-xs">
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(idx, -1)}
-                            className="w-6 h-6 flex items-center justify-center text-slate-300 hover:bg-slate-700 rounded"
-                          >
-                            -
-                          </button>
-                          <span className="font-mono font-bold w-6 text-center text-white">{item.qty || 1}</span>
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(idx, 1)}
-                            className="w-6 h-6 flex items-center justify-center text-slate-300 hover:bg-slate-700 rounded"
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-[11px] text-slate-400 block">Est. Cost</span>
-                          <strong className="text-sm font-bold text-emerald-400">
-                            ₹{((item.est_cost || 0) * (item.qty || 1)).toLocaleString('en-IN')}
-                          </strong>
-                        </div>
+                        <span className="text-[11px] text-slate-500">
+                          {item.category} • Connected Load: <strong>{item.kw} kW</strong>
+                        </span>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
 
-              {/* Running total ticker */}
+                    <div className="flex items-center justify-between sm:justify-end gap-4 mt-2 sm:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-slate-200">
+                      <div className="flex items-center gap-1 bg-white border border-slate-200 rounded p-0.5 text-xs">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(idx, -1)}
+                          className="w-5 h-5 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded"
+                        >
+                          -
+                        </button>
+                        <span className="font-mono font-bold w-5 text-center text-slate-900">{item.qty || 1}</span>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(idx, 1)}
+                          className="w-5 h-5 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-slate-900">
+                          ₹{((item.est_cost || 0) * (item.qty || 1)).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
               {calculations && (
-                <div className="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-3">
-                    <span className="text-[11px] text-slate-400 block">Active Items</span>
-                    <strong className="text-base font-bold text-white">
+                <div className="mt-6 pt-4 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs">
+                  <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Total Items</span>
+                    <strong className="text-slate-900 text-sm">
                       {customItems.filter((i) => i.selected !== false).length} machines
                     </strong>
                   </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-3">
-                    <span className="text-[11px] text-slate-400 block">Total Power Load</span>
-                    <strong className="text-base font-bold text-amber-400">
-                      {calculations.total_electrical_kw} kW
-                    </strong>
+                  <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Total Power</span>
+                    <strong className="text-amber-600 text-sm">{calculations.total_electrical_kw} kW</strong>
                   </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-3">
-                    <span className="text-[11px] text-slate-400 block">Exhaust Airflow</span>
-                    <strong className="text-base font-bold text-cyan-400">
-                      {calculations.exhaust_hood_cfm} CFM
-                    </strong>
+                  <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Exhaust Airflow</span>
+                    <strong className="text-slate-900 text-sm">{calculations.exhaust_hood_cfm} CFM</strong>
                   </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-3">
-                    <span className="text-[11px] text-slate-400 block">Est. Total Investment</span>
-                    <strong className="text-base font-bold text-emerald-400">
+                  <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Est. Equipment Budget</span>
+                    <strong className="text-brand-orange text-sm">
                       ₹{calculations.total_estimated_budget_inr.toLocaleString('en-IN')}
                     </strong>
                   </div>
@@ -508,232 +422,155 @@ export const SetupWizard: React.FC = () => {
               )}
             </div>
 
-            <div className="mt-12 flex items-center justify-center gap-4">
+            <div className="mt-8 flex items-center justify-center gap-3">
               <button
                 onClick={() => setCurrentStep(2)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition"
+                className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs"
               >
-                <ArrowLeft className="w-4 h-4" /> Back to Scale
+                Back
               </button>
               <button
                 onClick={() => setCurrentStep(4)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-amber-500 hover:from-brand-orange-hover hover:to-amber-600 text-white font-bold text-sm shadow-xl shadow-brand-orange/25 transition"
+                className="px-6 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs uppercase tracking-wider transition"
               >
-                <span>Continue to Step 4: Engineering & Quote</span>
-                <ArrowRight className="w-4 h-4" />
+                Get Official Quotation & BOQ →
               </button>
             </div>
           </div>
         )}
 
-        {/* ================= STEP 4: ENGINEERING SUMMARY & QUOTATION ================= */}
+        {/* STEP 4: QUOTATION & SUBMISSION */}
         {currentStep === 4 && (
-          <div className="animate-in fade-in duration-300 max-w-4xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             {quoteReference ? (
-              <div className="bg-[#151F2E] border border-emerald-500/40 rounded-3xl p-8 sm:p-12 text-center shadow-2xl">
-                <div className="w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/40">
-                  <CheckCircle2 className="w-12 h-12" />
-                </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-mono font-bold mb-3 border border-emerald-500/30">
+              <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto mb-2" />
+                <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block mb-2">
                   Quote Ref: {quoteReference}
-                </div>
-                <h2 className="text-3xl font-black font-display text-white mb-2">
-                  Kitchen Setup Plan Submitted!
-                </h2>
-                <p className="text-slate-300 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
-                  Thank you, <strong className="text-white">{formData.full_name}</strong>. Your custom commercial blueprint has been dispatched to our engineering desk. A ChefMachines project lead will call you within 4 hours to confirm MEP drawings and tiered quotation discounts.
+                </span>
+                <h2 className="text-2xl font-bold text-slate-900 mb-1">Kitchen Blueprint Generated</h2>
+                <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-6">
+                  Thank you, <strong className="text-slate-900">{formData.full_name}</strong>. A ChefMachines project lead will call you within 4 hours with your itemized BOQ discount pricing and MEP drawings.
                 </p>
 
-                {/* Summary Box */}
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-left max-w-md mx-auto mb-8 space-y-2 text-xs">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-left max-w-sm mx-auto mb-6 space-y-1.5">
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Concept:</span>
-                    <strong className="text-white">{selectedConcept.replace('_', ' ').toUpperCase()}</strong>
+                    <span className="text-slate-500">Connected Electrical Load:</span>
+                    <strong className="text-slate-900">{calculations.total_electrical_kw} kW</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Total Sanction Power:</span>
-                    <strong className="text-amber-400">{calculations.total_electrical_kw} kW ({calculations.power_phase_recommendation})</strong>
+                    <span className="text-slate-500">Exhaust Airflow:</span>
+                    <strong className="text-slate-900">{calculations.exhaust_hood_cfm} CFM</strong>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">Exhaust CFM:</span>
-                    <strong className="text-cyan-400">{calculations.exhaust_hood_cfm} CFM</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">Recommended Footprint:</span>
-                    <strong className="text-white">{calculations.recommended_kitchen_sqft}</strong>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t border-slate-800 text-sm">
-                    <span className="text-slate-300 font-bold">Estimated Equipment Investment:</span>
-                    <strong className="text-emerald-400">₹{calculations.total_estimated_budget_inr.toLocaleString('en-IN')}</strong>
+                  <div className="flex justify-between pt-1 border-t border-slate-200 font-bold">
+                    <span>Estimated Total:</span>
+                    <span className="text-brand-orange">₹{calculations.total_estimated_budget_inr.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="flex items-center justify-center gap-3">
                   <button
                     onClick={() => window.print()}
-                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold text-xs transition inline-flex items-center justify-center gap-2"
+                    className="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs"
                   >
-                    <Download className="w-4 h-4" /> Print / Save Specification Summary
+                    Print Spec Sheet
                   </button>
                   <Link
                     to="/"
-                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs transition shadow-lg shadow-brand-orange/30"
+                    className="px-5 py-2 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-xs"
                   >
-                    Return to Homepage
+                    Back to Home
                   </Link>
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Left: Engineering Breakdown */}
-                <div className="lg:col-span-5 space-y-6">
-                  <div className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 shadow-xl">
-                    <h3 className="text-lg font-bold font-display text-white mb-4 flex items-center gap-2">
-                      <Gauge className="w-5 h-5 text-brand-orange" />
-                      MEP Utility Schematics
-                    </h3>
-                    <div className="space-y-3.5 text-xs">
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-400 block mb-0.5">Electrical Connected Load</span>
-                        <div className="text-xl font-bold text-amber-400">{calculations.total_electrical_kw} kW</div>
-                        <span className="text-[11px] text-slate-300 font-semibold mt-1 block">
-                          ⚡ {calculations.power_phase_recommendation}
-                        </span>
-                      </div>
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h3 className="text-xl font-bold text-slate-900 mb-1">
+                  Generate Official BOQ & MEP Specifications
+                </h3>
+                <p className="text-slate-500 text-xs mb-6">
+                  Enter your details to generate your commercial quotation with factory warranty discounts.
+                </p>
 
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-400 block mb-0.5">Kitchen Exhaust Hood CFM</span>
-                        <div className="text-xl font-bold text-cyan-400">{calculations.exhaust_hood_cfm} CFM</div>
-                        <span className="text-[11px] text-slate-400 mt-1 block">
-                          Capture velocity for high-heat fryers & griddles
-                        </span>
-                      </div>
+                <form onSubmit={handleSubmitQuote} className="space-y-3.5 text-xs">
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Vikram Mehta"
+                      value={formData.full_name}
+                      onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:bg-white"
+                    />
+                  </div>
 
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-400 block mb-0.5">Plumbing & Drains</span>
-                        <div className="text-sm font-bold text-white">
-                          {calculations.plumbing_points} Water Inlets • {calculations.drainage_points} Grease Trap Drains
-                        </div>
-                      </div>
-
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-400 block mb-0.5">Recommended Space</span>
-                        <div className="text-sm font-bold text-white">{calculations.recommended_kitchen_sqft}</div>
-                      </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">WhatsApp Phone *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:bg-white"
+                      />
                     </div>
-
-                    <div className="mt-6 pt-4 border-t border-slate-800">
-                      <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Estimated Budget</span>
-                      <div className="text-2xl font-black text-emerald-400">
-                        ₹{calculations.total_estimated_budget_inr.toLocaleString('en-IN')}
-                      </div>
-                      <span className="text-[10px] text-slate-400">Factory direct B2B commercial rates</span>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Business Email *</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="vikram@brand.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:bg-white"
+                      />
                     </div>
                   </div>
-                </div>
 
-                {/* Right: Lead Capture Form */}
-                <div className="lg:col-span-7">
-                  <div className="bg-[#151F2E] border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl">
-                    <h3 className="text-2xl font-bold font-display text-white mb-2">
-                      Generate Official Quotation
-                    </h3>
-                    <p className="text-slate-400 text-xs mb-6">
-                      Enter your details to generate your official equipment bill of quantities (BOQ) with MEP technical drawings.
-                    </p>
-
-                    <form onSubmit={handleSubmitQuote} className="space-y-4">
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="e.g. Vikram Mehta"
-                          value={formData.full_name}
-                          onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-300 mb-1">WhatsApp Phone Number *</label>
-                          <input
-                            type="tel"
-                            required
-                            placeholder="+91 98765 43210"
-                            value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-300 mb-1">Business Email *</label>
-                          <input
-                            type="email"
-                            required
-                            placeholder="vikram@brand.com"
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-300 mb-1">City / Location *</label>
-                          <input
-                            type="text"
-                            required
-                            placeholder="e.g. Hyderabad, Bangalore, Pune"
-                            value={formData.city}
-                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-300 mb-1">Outlet / Brand Name</label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Smash & Bun Co."
-                            value={formData.business_name}
-                            onChange={(e) => setFormData({ ...formData, business_name: e.target.value })}
-                            className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-300 mb-1">Additional Notes or Layout Needs</label>
-                        <textarea
-                          rows={2}
-                          placeholder="e.g. Looking for MEP layout drawings or turnkey fabrication alongside machines..."
-                          value={formData.notes}
-                          onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                          className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-orange"
-                        />
-                      </div>
-
-                      <div className="pt-2 flex items-center justify-between">
-                        <button
-                          type="button"
-                          onClick={() => setCurrentStep(3)}
-                          className="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1"
-                        >
-                          <ArrowLeft className="w-3.5 h-3.5" /> Modify Items
-                        </button>
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="px-8 py-3 bg-gradient-to-r from-brand-orange to-amber-500 hover:from-brand-orange-hover hover:to-amber-600 text-white font-bold rounded-xl text-sm shadow-xl shadow-brand-orange/30 transition disabled:opacity-50"
-                        >
-                          {isSubmitting ? 'Generating Plan...' : 'Generate Commercial Quote & BOQ'}
-                        </button>
-                      </div>
-                    </form>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">City / Region *</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Jaipur, Delhi NCR, Bangalore"
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Brand Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Burger Farm / Cafe Nola"
+                        value={formData.business_name}
+                        onChange={(e) => setFormData({ ...formData, business_name: e.target.value })}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:bg-white"
+                      />
+                    </div>
                   </div>
-                </div>
+
+                  <div className="pt-3 flex items-center justify-between border-t border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(3)}
+                      className="text-slate-500 hover:text-slate-800 font-semibold"
+                    >
+                      ← Modify Items
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="px-6 py-2.5 bg-brand-orange hover:bg-brand-orange-hover text-white font-bold rounded-xl text-xs uppercase tracking-wider transition disabled:opacity-50"
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit & Receive Official Quote'}
+                    </button>
+                  </div>
+                </form>
               </div>
             )}
           </div>
