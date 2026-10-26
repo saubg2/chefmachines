@@ -1,0 +1,9 @@
+.git
+.github
+backend/venv
+frontend/node_modules
+frontend/dist
+backend/app/data/*.db
+.DS_Store
+*.log
+README.md
