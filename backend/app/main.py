@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 
 from .database import engine, Base, SessionLocal
 from .seed_data import seed_initial_data
+from .seed_brands_and_clients import seed_brands_and_equipment
 from .routers import products, wizard, calculators, training, blogs, leads, admin
 
 @asynccontextmanager
@@ -16,6 +17,7 @@ async def lifespan(app: FastAPI):
     db = SessionLocal()
     try:
         seed_initial_data(db)
+        seed_brands_and_equipment(db)
     finally:
         db.close()
     yield

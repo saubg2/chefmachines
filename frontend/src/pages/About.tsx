@@ -12,6 +12,9 @@ import {
   Flame
 } from 'lucide-react';
 
+import { ClientCredibility } from '../components/ClientCredibility';
+import { BrandMarquee } from '../components/BrandMarquee';
+
 interface AboutProps {
   onOpenQuoteModal: (equipment?: string) => void;
 }
@@ -84,6 +87,16 @@ export const About: React.FC<AboutProps> = ({ onOpenQuoteModal }) => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Brand Partners Marquee */}
+        <div className="my-12">
+          <BrandMarquee />
+        </div>
+
+        {/* Real Client Credibility Wall */}
+        <div className="my-12">
+          <ClientCredibility />
         </div>
 
         {/* CTA */}

@@ -22,6 +22,8 @@ import {
   BookOpen
 } from 'lucide-react';
 import { api, Product, TrainingModule, BlogPost } from '../services/api';
+import { BrandMarquee } from '../components/BrandMarquee';
+import { ClientCredibility } from '../components/ClientCredibility';
 
 interface HomeProps {
   onOpenQuoteModal: (equipment?: string) => void;
@@ -146,6 +148,12 @@ export const Home: React.FC<HomeProps> = ({ onOpenQuoteModal }) => {
           </div>
         </div>
       </section>
+
+      {/* AUTHORIZED COMMERCIAL BRANDS WE DISTRIBUTE */}
+      <BrandMarquee />
+
+      {/* REAL CLIENT CREDIBILITY: 500+ COMMERCIAL OUTLETS (BURGER FARM, NBC, CLARKS AMER, ETC.) */}
+      <ClientCredibility />
 
       {/* 2. THE 4 INTERNAL PILLARS (FLOWING CARDS) */}
       <section className="py-20 bg-[#0E131C] border-y border-slate-800/80 relative">

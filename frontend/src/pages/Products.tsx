@@ -11,7 +11,8 @@ import {
   SlidersHorizontal,
   CheckCircle2
 } from 'lucide-react';
-import { api, Product, Category } from '../services/api';
+import { api, Product, Category, Brand } from '../services/api';
+import { BRANDS } from '../components/BrandMarquee';
 
 interface ProductsProps {
   onOpenQuoteModal: (equipment?: string) => void;
@@ -20,6 +21,7 @@ interface ProductsProps {
 export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get('category') || '';
+  const activeBrand = searchParams.get('brand') || '';
 
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,7 +31,11 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
   useEffect(() => {
     Promise.all([
       api.getCategories(),
-      api.getProducts({ category: activeCategory || undefined, search: searchQuery || undefined })
+      api.getProducts({
+        category: activeCategory || undefined,
+        brand: activeBrand || undefined,
+        search: searchQuery || undefined
+      })
     ])
       .then(([cats, prods]) => {
         setCategories(cats);
@@ -40,14 +46,26 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
         console.error(err);
         setLoading(false);
       });
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, activeBrand, searchQuery]);
 
   const handleCategorySelect = (slug: string) => {
+    const params = new URLSearchParams(searchParams);
     if (slug === activeCategory) {
-      setSearchParams({});
+      params.delete('category');
     } else {
-      setSearchParams({ category: slug });
+      params.set('category', slug);
     }
+    setSearchParams(params);
+  };
+
+  const handleBrandSelect = (brandName: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (brandName === activeBrand) {
+      params.delete('brand');
+    } else {
+      params.set('brand', brandName);
+    }
+    setSearchParams(params);
   };
 
   return (
@@ -82,6 +100,38 @@ export const Products: React.FC<ProductsProps> = ({ onOpenQuoteModal }) => {
 
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <span>Showing <strong className="text-white">{products.length}</strong> commercial models</span>
+          </div>
+        </div>
+
+        {/* Authorized Brands Filter Row */}
+        <div className="mb-6">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 block mb-2">
+            Filter by Authorized Commercial Brand:
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1">
+            <button
+              onClick={() => handleBrandSelect('')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border ${
+                activeBrand === ''
+                  ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold shadow-md'
+                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+              }`}
+            >
+              All Brands
+            </button>
+            {BRANDS.map((b) => (
+              <button
+                key={b.name}
+                onClick={() => handleBrandSelect(b.name)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
+                  activeBrand.toLowerCase() === b.name.toLowerCase()
+                    ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md'
+                    : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-white hover:border-slate-600'
+                }`}
+              >
+                {b.name}
+              </button>
+            ))}
           </div>
         </div>
 

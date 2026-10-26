@@ -98,15 +98,30 @@ export interface LeadSubmission {
   estimated_budget?: string;
 }
 
+export interface Brand {
+  name: string;
+  slug: string;
+  category: string;
+  logo?: string;
+  product_count?: number;
+}
+
 export const api = {
   // Products
-  async getProducts(params?: { category?: string; featured?: boolean; search?: string }): Promise<Product[]> {
+  async getProducts(params?: { category?: string; brand?: string; featured?: boolean; search?: string }): Promise<Product[]> {
     const q = new URLSearchParams();
     if (params?.category) q.append('category', params.category);
+    if (params?.brand) q.append('brand', params.brand);
     if (params?.featured !== undefined) q.append('featured', String(params.featured));
     if (params?.search) q.append('search', params.search);
     const res = await fetch(`${API_BASE}/products?${q.toString()}`);
     if (!res.ok) throw new Error('Failed to fetch products');
+    return res.json();
+  },
+
+  async getBrands(): Promise<Brand[]> {
+    const res = await fetch(`${API_BASE}/products/brands`);
+    if (!res.ok) throw new Error('Failed to fetch brands');
     return res.json();
   },
 

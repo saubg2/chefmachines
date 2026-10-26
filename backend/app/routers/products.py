@@ -1,12 +1,29 @@
 import json
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from sqlalchemy import func
+from typing import List, Optional, Dict, Any
 from ..database import get_db
 from ..models import Product, Category
 from ..schemas import ProductOut, CategoryOut
 
 router = APIRouter(prefix="/api/products", tags=["Products"])
+
+AUTHORIZED_BRANDS = [
+    {"name": "Celfrost", "slug": "celfrost", "category": "Refrigeration & Ice", "logo": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=120"},
+    {"name": "Electrolux", "slug": "electrolux", "category": "Cooking & Warewashing", "logo": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=120"},
+    {"name": "Fiorenzato", "slug": "fiorenzato", "category": "Coffee Grinders", "logo": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=120"},
+    {"name": "Middleby Marshall", "slug": "middleby-marshall", "category": "Conveyor Pizza Ovens", "logo": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120"},
+    {"name": "Pitco", "slug": "pitco", "category": "Commercial Fryers", "logo": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=120"},
+    {"name": "TurboChef", "slug": "turbochef", "category": "High Speed Ovens", "logo": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=120"},
+    {"name": "Marco", "slug": "marco", "category": "Beverage & Boilers", "logo": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=120"},
+    {"name": "Timemore", "slug": "timemore", "category": "Specialty Coffee Gear", "logo": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=120"},
+    {"name": "MHW-3BOMBER", "slug": "mhw-3bomber", "category": "Barista Tools & Accessories", "logo": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=120"},
+    {"name": "La Marzocco", "slug": "la-marzocco", "category": "Espresso Machines", "logo": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=120"},
+    {"name": "La Cimbali", "slug": "la-cimbali", "category": "Espresso Machines", "logo": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=120"},
+    {"name": "Fiamma", "slug": "fiamma", "category": "Espresso & Griddles", "logo": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=120"},
+    {"name": "Cunill", "slug": "cunill", "category": "Silent Coffee Grinders", "logo": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=120"}
+]
 
 def format_product(p: Product) -> dict:
     return {
@@ -32,6 +49,7 @@ def format_product(p: Product) -> dict:
 @router.get("", response_model=List[ProductOut])
 def list_products(
     category: Optional[str] = None,
+    brand: Optional[str] = None,
     featured: Optional[bool] = None,
     search: Optional[str] = None,
     skip: int = 0,
@@ -41,6 +59,9 @@ def list_products(
     query = db.query(Product).filter(Product.is_active == True)
     if category:
         query = query.filter(Product.category_slug == category)
+    if brand:
+        # Match case-insensitively
+        query = query.filter(Product.brand.ilike(f"%{brand}%"))
     if featured is not None:
         query = query.filter(Product.is_featured == featured)
     if search:
@@ -53,6 +74,17 @@ def list_products(
         )
     products = query.offset(skip).limit(limit).all()
     return [format_product(p) for p in products]
+
+@router.get("/brands")
+def list_brands(db: Session = Depends(get_db)):
+    results = []
+    for b in AUTHORIZED_BRANDS:
+        cnt = db.query(Product).filter(Product.brand.ilike(f"%{b['name']}%"), Product.is_active == True).count()
+        results.append({
+            **b,
+            "product_count": cnt
+        })
+    return results
 
 @router.get("/categories", response_model=List[CategoryOut])
 def list_categories(db: Session = Depends(get_db)):
