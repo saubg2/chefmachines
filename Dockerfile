@@ -16,8 +16,7 @@ RUN npm run build
 FROM python:3.11-slim AS production
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PORT=8000
+    PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /app
 
@@ -30,14 +29,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir -r ./backend/requirements.txt
 
-# Copy backend code
+# Copy backend code and runner
 COPY backend ./backend
+COPY run.py ./run.py
 
 # Copy built frontend from Stage 1 into frontend/dist
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# Expose Railway Port
+# Expose default port
 EXPOSE 8000
 
-# Start Uvicorn bound to Railway dynamic $PORT
-CMD ["sh", "-c", "uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Start server via Python runner which safely parses integer $PORT
+CMD ["python", "run.py"]
