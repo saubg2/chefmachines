@@ -619,14 +619,14 @@ export const AdminDashboard: React.FC = () => {
                     {uploadError && <span className="text-xs text-red-600 font-semibold">{uploadError}</span>}
                   </div>
 
-                  {/* Manual URL Input */}
+                  {/* Manual URL / Path Input */}
                   <div>
-                    <span className="text-[10px] text-slate-500 block mb-1">Or paste direct image URL:</span>
+                    <span className="text-[10px] text-slate-500 block mb-1">Image URL or Server Path:</span>
                     <input
-                      type="url"
+                      type="text"
                       value={productForm.image_url}
                       onChange={(e) => setProductForm({ ...productForm, image_url: e.target.value })}
-                      placeholder="https://... or /uploads/filename.png"
+                      placeholder="/uploads/filename.png or https://..."
                       className="w-full px-3 py-1.5 bg-white border border-slate-300 rounded text-xs text-slate-900 font-mono"
                     />
                   </div>
