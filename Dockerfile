@@ -33,6 +33,11 @@ RUN pip install --no-cache-dir -r ./backend/requirements.txt
 COPY backend ./backend
 COPY run.py ./run.py
 
+# Create persistent storage directories for SQLite and uploaded photos
+RUN mkdir -p /data/uploads && chmod -R 777 /data
+ENV DATA_DIR=/data
+VOLUME ["/data"]
+
 # Copy built frontend from Stage 1 into frontend/dist
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 

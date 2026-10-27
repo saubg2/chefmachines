@@ -222,3 +222,46 @@ def admin_update_lead_status(id: int, update: LeadStatusUpdate, db: Session = De
     lead.status = update.status
     db.commit()
     return {"success": True, "lead_id": lead.id, "new_status": lead.status}
+
+# PHOTO & MEDIA UPLOADS TO PERSISTENT VOLUME
+import os
+import uuid
+import re
+import shutil
+from fastapi import UploadFile, File
+from ..database import UPLOADS_DIR
+
+@router.post("/upload-image")
+async def admin_upload_image(file: UploadFile = File(...)):
+    """
+    Uploads equipment photos to the persistent volume ($DATA_DIR/uploads)
+    and returns a public accessible URL.
+    """
+    allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"]
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type '{file.content_type}'. Allowed formats: JPG, PNG, WEBP, GIF, SVG."
+        )
+
+    # Sanitize extension and base filename
+    original_name = file.filename or "equipment.png"
+    ext = os.path.splitext(original_name)[1].lower()
+    if not ext:
+        ext = ".png"
+
+    clean_base = re.sub(r'[^a-zA-Z0-9_-]', '_', os.path.splitext(original_name)[0])[:30]
+    unique_filename = f"{clean_base}_{uuid.uuid4().hex[:8]}{ext}"
+
+    dest_path = os.path.join(UPLOADS_DIR, unique_filename)
+    try:
+        with open(dest_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save image to persistent volume: {str(e)}")
+
+    return {
+        "success": True,
+        "filename": unique_filename,
+        "image_url": f"/uploads/{unique_filename}"
+    }

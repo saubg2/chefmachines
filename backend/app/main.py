@@ -72,6 +72,12 @@ def health_check():
         ]
     }
 
+# Mount Persistent Photo Uploads Directory
+from .database import UPLOADS_DIR
+
+if os.path.exists(UPLOADS_DIR):
+    app.mount("/uploads", StaticFiles(directory=UPLOADS_DIR), name="uploads")
+
 # Production SPA static files mounting
 FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist"))
 

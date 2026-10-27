@@ -300,5 +300,19 @@ export const api = {
       method: 'DELETE'
     });
     return res.json();
+  },
+
+  async uploadImage(file: File): Promise<{ success: boolean; filename: string; image_url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${API_BASE}/admin/upload-image`, {
+      method: 'POST',
+      body: formData
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'Upload failed' }));
+      throw new Error(err.detail || 'Image upload failed');
+    }
+    return res.json();
   }
 };
